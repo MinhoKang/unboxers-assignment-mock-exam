@@ -6,6 +6,18 @@
     "dev": "pnpm --filter server dev",
     "db:generate": "pnpm --filter server db:generate",
     "db:push": "pnpm --filter server db:push",
-    "db:seed": "pnpm --filter server db:seed"
+    "db:seed": "pnpm --filter server db:seed",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "apps/client/**/*.{ts,tsx}": [
+      "pnpm --filter client exec eslint --fix",
+      "pnpm --filter client exec prettier --write"
+    ],
+    "apps/client/**/*.{css,json,md,html}": "pnpm --filter client exec prettier --write"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.3.3"
   }
 }
