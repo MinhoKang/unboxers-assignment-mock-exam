@@ -1,16 +1,12 @@
 import { cn } from "@/shared/helpers/cn";
 
-interface OMRMultipleChoiceButtonProps {
+interface OMRObjectiveButtonProps {
   number: number;
   isSelected: boolean;
   onSelect: () => void;
 }
 
-export const OMRMultipleChoiceButton = ({
-  number,
-  isSelected,
-  onSelect,
-}: OMRMultipleChoiceButtonProps) => {
+export const OMRObjectiveButton = ({ number, isSelected, onSelect }: OMRObjectiveButtonProps) => {
   return (
     <button
       className={cn(isSelected ? "bg-gs1" : "bg-grayscale-500-100", "h-11 w-5 rounded-[20px]")}

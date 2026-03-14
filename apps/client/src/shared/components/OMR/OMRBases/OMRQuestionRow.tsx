@@ -1,4 +1,4 @@
-import { OMRMultipleChoiceButton } from "./OMRMultipleChoiceButton";
+import { OMRObjectiveButton } from "./OMRObjectiveButton";
 
 interface QuestionRowProps {
   questionNumber: number;
@@ -24,7 +24,7 @@ export const QuestionRow = ({
       </div>
       <div className="flex gap-x-2.5 px-2 py-1.5">
         {choices.map((choice) => (
-          <OMRMultipleChoiceButton
+          <OMRObjectiveButton
             key={choice}
             number={choice}
             isSelected={selectedChoices.includes(choice)}

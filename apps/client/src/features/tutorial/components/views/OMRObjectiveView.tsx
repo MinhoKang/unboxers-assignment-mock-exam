@@ -5,7 +5,7 @@ import {
 } from "@/features/tutorial/hooks/useOMRMultipleChoiceView";
 import type { TTutorialDirection } from "@/features/tutorial/types/tutorialTypes";
 import { OMRContainer } from "@/shared/components/OMR/OMRBases/OMRContainer";
-import { OMRMultipleChoices } from "@/shared/components/OMR/OMRBases/OMRMultipleChoices";
+import { OMRObjectiveInputs } from "@/shared/components/OMR/OMRBases/OMRObjectiveInputs";
 
 import { getGuideDescription } from "../../helpers/getGuideDescription";
 import { FooterButtons } from "../footerButtons/FooterButtons";
@@ -24,7 +24,7 @@ const getStepComponent = (step: TMultipleChoiceTutorialStep): [string, string] =
   }
 };
 
-export const OMRMultipleChoiceView = ({
+export const OMRObjectiveView = ({
   onStepChange,
 }: {
   onStepChange: (direction: TTutorialDirection) => void;
@@ -46,7 +46,7 @@ export const OMRMultipleChoiceView = ({
     <div className="flex w-full flex-col gap-y-12 self-start">
       <div className="flex flex-col gap-y-12">
         <OMRContainer className="mx-auto mt-[-18px] rounded-t-none">
-          <OMRMultipleChoices totalQuestions={30} answers={answers} onSelect={handleSelect} />
+          <OMRObjectiveInputs totalQuestions={30} answers={answers} onSelect={handleSelect} />
         </OMRContainer>
 
         <GuideDescription description={getGuideDescription(isLastStep)} />

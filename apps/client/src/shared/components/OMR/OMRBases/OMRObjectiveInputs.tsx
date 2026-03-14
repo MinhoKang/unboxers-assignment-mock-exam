@@ -4,19 +4,19 @@ import { getChoicesColumns, getColumnCount, getReaderBarKeys } from "@/shared/he
 
 import { QuestionRow } from "./OMRQuestionRow";
 
-interface OMRMultipleChoicesProps {
+interface OMRObjectiveInputsProps {
   totalQuestions: number;
   choiceCount?: number;
   answers?: Record<number, number[]>;
   onSelect?: (question: number, choice: number) => void;
 }
 
-export const OMRMultipleChoices = ({
+export const OMRObjectiveInputs = ({
   totalQuestions,
   choiceCount = 5,
   answers = {},
   onSelect,
-}: OMRMultipleChoicesProps) => {
+}: OMRObjectiveInputsProps) => {
   const columnCount = getColumnCount(totalQuestions);
   const columns = getChoicesColumns(columnCount, totalQuestions);
   const readerBarKeys = getReaderBarKeys(choiceCount);
