@@ -3,7 +3,7 @@ import { Button } from "@/shared/components/button/Button";
 
 export const StartView = ({ onStepChange }: { onStepChange: (step: number) => void }) => {
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-y-12 pb-20">
+    <div className="flex h-full flex-col items-center justify-center gap-y-12">
       <div className="flex flex-col items-center justify-center gap-y-12 py-[90.89px]">
         <Paper />
         <p className="text-gs1 text-center text-4xl font-extrabold">

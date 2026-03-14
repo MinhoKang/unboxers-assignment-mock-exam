@@ -1,5 +1,5 @@
-import { Dropdown } from "../../../../shared/components/dropdown/Dropdown";
-import { LogoBlack } from "../../../../shared/icons/LogoBlack";
+import { Dropdown } from "@/shared/components/dropdown/Dropdown";
+import { LogoBlack } from "@/shared/icons";
 
 export const Header = () => {
   return (

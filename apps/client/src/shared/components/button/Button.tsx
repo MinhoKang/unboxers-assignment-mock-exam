@@ -3,15 +3,18 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/shared/helpers/cn";
 
 const buttonVariants = cva(
-  "inline-flex cursor-pointer items-center justify-center rounded-xl font-bold transition-opacity disabled:cursor-not-allowed disabled:opacity-50 shadow-floating-sm",
+  "inline-flex cursor-pointer items-center justify-center rounded-xl font-bold transition-opacity shadow-floating-xs",
   {
     variants: {
       variant: {
-        white: "bg-gs4 text-gs1",
+        white: "bg-gs6 text-gs1",
         black: "bg-black-grad text-gs6",
       },
       size: {
         md: "h-13 w-[243px] text-[17px]",
+      },
+      disabled: {
+        true: "bg-gs5 text-gs3 cursor-not-allowed",
       },
     },
     defaultVariants: {
@@ -23,15 +26,33 @@ const buttonVariants = cva(
 
 interface ButtonProps
   extends
-    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children">,
+    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children" | "disabled">,
     VariantProps<typeof buttonVariants> {
   label: string;
+  iconOptions?: {
+    icon: React.ReactNode;
+    position: "left" | "right";
+  };
 }
 
-export const Button = ({ label, className, variant, size, ...props }: ButtonProps) => {
+export const Button = ({
+  label,
+  iconOptions,
+  className,
+  variant,
+  size,
+  disabled,
+  ...props
+}: ButtonProps) => {
   return (
-    <button className={cn(buttonVariants({ variant, size }), className)} {...props}>
+    <button
+      className={cn(buttonVariants({ variant, size, disabled: disabled ?? false }), className)}
+      disabled={disabled ?? false}
+      {...props}
+    >
+      {iconOptions?.position === "left" && iconOptions.icon}
       {label}
+      {iconOptions?.position === "right" && iconOptions.icon}
     </button>
   );
 };

@@ -1,4 +1,4 @@
-import { ArrowDown } from "@/shared/icons/ArrowDown";
+import { ArrowDown } from "@/shared/icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
