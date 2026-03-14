@@ -16,6 +16,7 @@ export const Paper = () => {
     >
       {Array.from({ length: STACK_COUNT }).map((_, i) => {
         const index = STACK_COUNT - i;
+
         return (
           <div
             key={i}

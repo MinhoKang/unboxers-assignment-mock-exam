@@ -7,9 +7,16 @@
   --color-gs4: #f5f5f5;
   --color-gs6: #ffffff;
 
+  --color-grayscale-500-100: #a5a4a0;
+
+  --color-inbrain-blue: #364f8e;
+  --color-inbrain-lightblue: #5784f1;
   --color-logo-black: #333333;
 
   --shadow-floating-sm: 0px 4px 16px 0px #00000026;
+
+  /* 정의되지 않은 색상 */
+  --color-omr-bg: #fffdf1;
 }
 
 @utility bg-black-grad {
