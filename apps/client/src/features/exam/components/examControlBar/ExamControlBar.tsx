@@ -23,7 +23,7 @@ export const ExamControlBar = ({ status, totalTime, remainingTime }: ExamControl
         <div className="flex items-end justify-between">
           <span
             className={cn(
-              !isExamining || remainingTime > 10 ? "text-black-grad" : "text-red",
+              remainingTime > 10 ? "text-black-grad" : "text-red",
               "text-5xl font-extrabold",
             )}
           >

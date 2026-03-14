@@ -1,7 +1,7 @@
 import { Dropdown } from "@/shared/components/dropdown/Dropdown";
 import { LogoBlack } from "@/shared/icons";
 
-export const Header = () => {
+export const TutorialHeader = () => {
   return (
     <header className="bg-gs6 sticky top-0 z-10 grid grid-cols-3 items-center px-6 py-[12.5px]">
       <LogoBlack />

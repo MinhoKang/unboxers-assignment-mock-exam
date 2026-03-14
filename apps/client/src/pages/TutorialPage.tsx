@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 
-import { Header } from "@/features/tutorial/components/header/Header";
+import { TutorialHeader } from "@/features/tutorial/components/header/TutorialHeader";
 import { ExamTimeGuideView } from "@/features/tutorial/components/views/ExamTimeGuideView";
 import { OMRObjectiveView } from "@/features/tutorial/components/views/OMRObjectiveView";
 import { OMRSubjectiveView } from "@/features/tutorial/components/views/OMRSubjectiveView";
@@ -27,7 +27,7 @@ const TutorialPage = () => {
 
   return (
     <main className="bg-gs4 flex min-h-screen w-full flex-col pb-20">
-      <Header />
+      <TutorialHeader />
       <section className="flex w-full flex-1 items-center justify-center">
         {currentStep === 1 && <StartView onStepChange={() => handleStepChange("next")} />}
         {currentStep === 2 && <OMRObjectiveView onStepChange={handleStepChange} />}
