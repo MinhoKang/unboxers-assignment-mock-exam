@@ -24,3 +24,4 @@ apps/server/generated
 
 .agents
 skills-lock.json
+.vscode
