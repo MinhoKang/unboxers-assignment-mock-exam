@@ -1,9 +1,11 @@
-import { GuideComment } from "@/features/tutorial/components/guideComment/GuideComment";
+import { GuideDescription } from "@/features/tutorial/components/guideDescription/GuideDescription";
+import type { TTutorialDirection } from "@/features/tutorial/types/tutorialTypes";
 import { NumericKeypad } from "@/shared/components/OMR/OMRBases/NumericKeypad";
 import { OMRContainer } from "@/shared/components/OMR/OMRBases/OMRContainer";
 import { OMRSubjectiveInput } from "@/shared/components/OMR/OMRBases/OMRSubjectiveInput";
 import { useSubjectiveAction } from "@/shared/hooks/useSubjectiveAction";
 
+import { getGuideDescription } from "../../helpers/getGuideDescription";
 import {
   type TSubjectiveTutorialStep,
   useOMRSubjectiveView,
@@ -24,16 +26,11 @@ const getStepComponent = (step: TSubjectiveTutorialStep): [string, string] => {
   }
 };
 
-export const OMRSubjectiveView = () => {
-  const {
-    currentStep,
-    isClickableNextButton,
-    handleChangeStep,
-    handleClickNextButton,
-    handleClickPreviousButton,
-    getHighlightedWord,
-  } = useOMRSubjectiveView();
-
+export const OMRSubjectiveView = ({
+  onStepChange,
+}: {
+  onStepChange: (direction: TTutorialDirection) => void;
+}) => {
   const {
     answers,
     focusedField,
@@ -43,6 +40,16 @@ export const OMRSubjectiveView = () => {
     handleKeypadInput,
     handleComplete,
   } = useSubjectiveAction();
+
+  const {
+    currentStep,
+    isLastStep,
+    isClickableNextButton,
+    handleClickNextButton,
+    handleClickPreviousButton,
+    getHighlightedWord,
+    handleClickCompleteButton,
+  } = useOMRSubjectiveView({ focusedField, onComplete: handleComplete, onStepChange });
 
   const [comment1, comment2] = getStepComponent(currentStep);
 
@@ -66,14 +73,13 @@ export const OMRSubjectiveView = () => {
         <div className="mt-auto shrink-0">
           <NumericKeypad
             onInput={handleKeypadInput}
-            onComplete={handleComplete}
+            onComplete={handleClickCompleteButton}
             focusedField={focusedField}
             currentValue={focusedField ? answers[focusedField] || "" : ""}
           />
         </div>
       </section>
-      {/* TODO: 마지막일 경우 "좋아요! 다음으로 넘어가볼까요?" */}
-      <GuideComment comment={comment1} />
+      <GuideDescription description={getGuideDescription(isLastStep)} />
       <p className="text-gs1 text-center text-4xl leading-none font-extrabold tracking-[0.36px]">
         <span className="block">{comment1}</span>
         <span className="mt-1.5 block">

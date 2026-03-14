@@ -1,4 +1,4 @@
-import { GuideComment } from "@/features/tutorial/components/guideComment/GuideComment";
+import { GuideDescription } from "@/features/tutorial/components/guideDescription/GuideDescription";
 import {
   type TMultipleChoiceTutorialStep,
   useOMRMultipleChoiceView,
@@ -7,6 +7,7 @@ import type { TTutorialDirection } from "@/features/tutorial/types/tutorialTypes
 import { OMRContainer } from "@/shared/components/OMR/OMRBases/OMRContainer";
 import { OMRMultipleChoices } from "@/shared/components/OMR/OMRBases/OMRMultipleChoices";
 
+import { getGuideDescription } from "../../helpers/getGuideDescription";
 import { FooterButtons } from "../footerButtons/FooterButtons";
 
 const getStepComponent = (step: TMultipleChoiceTutorialStep): [string, string] => {
@@ -32,11 +33,12 @@ export const OMRMultipleChoiceView = ({
     answers,
     handleSelect,
     currentStep,
+    isLastStep,
     handleClickNextButton,
     handleClickPreviousButton,
     isShowQuestionNumber,
     getIsClickableNextButton,
-  } = useOMRMultipleChoiceView();
+  } = useOMRMultipleChoiceView({ onStepChange });
 
   const [comment1, comment2] = getStepComponent(currentStep);
 
@@ -47,7 +49,7 @@ export const OMRMultipleChoiceView = ({
           <OMRMultipleChoices totalQuestions={30} answers={answers} onSelect={handleSelect} />
         </OMRContainer>
 
-        <GuideComment comment={comment1} />
+        <GuideDescription description={getGuideDescription(isLastStep)} />
         <p className="text-gs1 text-center text-4xl leading-none font-extrabold tracking-[0.36px]">
           <span className="block">{comment1}</span>
           <span className="mt-1.5 block">

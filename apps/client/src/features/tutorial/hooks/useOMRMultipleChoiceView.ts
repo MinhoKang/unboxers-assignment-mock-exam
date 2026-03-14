@@ -1,9 +1,19 @@
 import { useState } from "react";
 
+import type { TTutorialDirection } from "@/features/tutorial/types/tutorialTypes";
+
 // 객관식 OMR 튜토리얼 단계
 export type TMultipleChoiceTutorialStep = "single" | "remove" | "multiple";
 
-export const useOMRMultipleChoiceView = () => {
+const hasMultipleChoices = (answers: Record<number, number[]>) => {
+  return Object.values(answers).some((choices) => choices.length >= 2);
+};
+
+export const useOMRMultipleChoiceView = ({
+  onStepChange,
+}: {
+  onStepChange: (direction: TTutorialDirection) => void;
+}) => {
   const [answers, setAnswers] = useState<Record<number, number[]>>({});
   const [currentStep, setCurrentStep] = useState<TMultipleChoiceTutorialStep>("single");
 
@@ -14,9 +24,10 @@ export const useOMRMultipleChoiceView = () => {
       case "remove":
         return answers[15]?.length === 0;
       case "multiple":
-        return Object.values(answers).some((choices) => choices.length >= 2);
+        return hasMultipleChoices(answers);
     }
   };
+  const isLastStep = currentStep === "multiple" && hasMultipleChoices(answers);
 
   // 마지막 단계에서는 문제 번호를 표시하지 않음
   const isShowQuestionNumber = currentStep !== "multiple";
@@ -42,10 +53,16 @@ export const useOMRMultipleChoiceView = () => {
   };
 
   const handleClickNextButton = () => {
-    if (currentStep === "single") {
-      handleChangeStep("remove");
-    } else if (currentStep === "remove") {
-      handleChangeStep("multiple");
+    switch (currentStep) {
+      case "single":
+        handleChangeStep("remove");
+        break;
+      case "remove":
+        handleChangeStep("multiple");
+        break;
+      case "multiple":
+        onStepChange("next");
+        break;
     }
   };
 
@@ -65,5 +82,6 @@ export const useOMRMultipleChoiceView = () => {
     handleClickPreviousButton,
     isShowQuestionNumber,
     getIsClickableNextButton,
+    isLastStep,
   };
 };

@@ -2,11 +2,11 @@ import { motion } from "motion/react";
 
 import { ChevronUp } from "@/shared/icons";
 
-interface GuideCommentProps {
-  comment: string;
+interface GuideDescriptionProps {
+  description: string;
 }
 
-export const GuideComment = ({ comment }: GuideCommentProps) => {
+export const GuideDescription = ({ description }: GuideDescriptionProps) => {
   return (
     <div className="flex flex-col items-center justify-center gap-y-1">
       <motion.div
@@ -15,7 +15,7 @@ export const GuideComment = ({ comment }: GuideCommentProps) => {
       >
         <ChevronUp />
       </motion.div>
-      <p className="text-gs1 text-[19px] font-bold">{comment}</p>
+      <p className="text-gs1 text-[19px] font-bold">{description}</p>
     </div>
   );
 };

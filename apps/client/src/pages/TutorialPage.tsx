@@ -30,7 +30,7 @@ const TutorialPage = () => {
       <section className="flex w-full flex-1 items-center justify-center">
         {currentStep === 1 && <StartView onStepChange={() => handleStepChange("next")} />}
         {currentStep === 2 && <OMRMultipleChoiceView onStepChange={handleStepChange} />}
-        {currentStep === 3 && <OMRSubjectiveView />}
+        {currentStep === 3 && <OMRSubjectiveView onStepChange={handleStepChange} />}
       </section>
     </main>
   );
