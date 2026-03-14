@@ -1,6 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 
 import { Header } from "@/features/tutorial/components/header/Header";
+import { ExamTimeGuideView } from "@/features/tutorial/components/views/ExamTimeGuideView";
 import { OMRMultipleChoiceView } from "@/features/tutorial/components/views/OMRMultipleChoiceView";
 import { OMRSubjectiveView } from "@/features/tutorial/components/views/OMRSubjectiveView";
 import { StartView } from "@/features/tutorial/components/views/StartView";
@@ -31,6 +32,7 @@ const TutorialPage = () => {
         {currentStep === 1 && <StartView onStepChange={() => handleStepChange("next")} />}
         {currentStep === 2 && <OMRMultipleChoiceView onStepChange={handleStepChange} />}
         {currentStep === 3 && <OMRSubjectiveView onStepChange={handleStepChange} />}
+        {currentStep === 4 && <ExamTimeGuideView onStepChange={handleStepChange} />}
       </section>
     </main>
   );

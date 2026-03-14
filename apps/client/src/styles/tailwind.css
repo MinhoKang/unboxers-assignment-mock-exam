@@ -3,6 +3,8 @@
 @theme {
   --font-sans: "Pretendard Variable", "Pretendard", "SUIT", system-ui, sans-serif;
 
+  --color-red: #f44c47;
+
   --color-gs1: #090909;
   --color-gs2: #858585;
   --color-gs3: #b6b6b6;
@@ -30,4 +32,11 @@
 
 @utility bg-blue-grad {
   background-image: linear-gradient(135deg, #364f8e 0%, #5784f1 100%);
+}
+
+@utility text-black-grad {
+  background-image: linear-gradient(135deg, #333333 0%, #333333 40%, #585858 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
