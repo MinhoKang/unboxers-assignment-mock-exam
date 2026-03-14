@@ -1,5 +1,5 @@
-function ExamPage() {
-  return <main className="min-h-screen bg-white" />;
-}
+const ExamPage = () => {
+  return <div>ExamPage</div>;
+};
 
 export default ExamPage;

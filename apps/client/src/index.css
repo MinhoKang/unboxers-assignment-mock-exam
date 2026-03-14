@@ -1,18 +1,20 @@
-@import "tailwindcss";
-
-@theme {
-  --font-sans: "Pretendard Variable", "Pretendard", "SUIT", system-ui, sans-serif;
-}
+@import "./styles/tailwind.css";
 
 @layer base {
+  :root {
+    color-scheme: light;
+    --color-text: var(--color-text-primary);
+    --color-bg-page: var(--color-surface-page);
+  }
+
   * {
     box-sizing: border-box;
   }
 
   html {
     font-family: var(--font-sans);
-    color: #1c1917;
-    background-color: #ffffff;
+    color: var(--color-text);
+    background-color: var(--color-bg-page);
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -20,7 +22,11 @@
 
   body {
     margin: 0;
+    min-height: 100vh;
     min-width: 320px;
+    background:
+      radial-gradient(circle at top, var(--color-brand-primary-spotlight), transparent 28rem),
+      var(--color-bg-page);
   }
 
   button,
@@ -28,5 +34,39 @@
   textarea,
   select {
     font: inherit;
+  }
+
+  img,
+  svg {
+    display: block;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+}
+
+@keyframes omr-scan {
+  0%,
+  100% {
+    transform: translateX(-120%);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
   }
 }
