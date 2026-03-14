@@ -21,14 +21,18 @@ export const Dropdown = ({ label, items = [] }: Readonly<DropdownProps>) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="flex min-w-[200px] cursor-pointer items-center justify-between gap-4 rounded-xl bg-white px-5 py-3 outline-none">
+        <button className="group flex min-w-[200px] cursor-pointer items-center justify-between gap-4 rounded-xl bg-white px-5 py-3 outline-none">
           <span className="text-gs1 text-[17px] font-bold">{label}</span>
-          {/* 열리면 위로 회전 */}
-          <ArrowDown />
+          <span className="transition-transform duration-200 group-data-[state=open]:rotate-180">
+            <ArrowDown />
+          </span>
         </button>
       </DropdownMenuTrigger>
       {items.length > 0 && (
-        <DropdownMenuContent align="end" className="min-w-[200px] rounded-xl border-none shadow-lg">
+        <DropdownMenuContent
+          align="end"
+          className="bg-gs6 min-w-[200px] rounded-xl border-none shadow-lg"
+        >
           {items.map((item) => (
             <DropdownMenuItem
               key={item.value}
