@@ -12,6 +12,7 @@ export const StartView = ({ onStepChange }: { onStepChange: (step: number) => vo
       </div>
       <div className="flex items-center gap-x-3">
         <Button variant="white" size="md" label="이전" onClick={() => onStepChange(1)} />
+        {/* TODO: 전체 ORM 작업 후 추가 페이지 작업 필요 */}
         <Button variant="black" size="md" label="시작하기" onClick={() => onStepChange(2)} />
       </div>
     </div>
