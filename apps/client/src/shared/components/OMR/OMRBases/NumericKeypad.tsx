@@ -80,9 +80,7 @@ export const NumericKeypad = ({
             {focusedField}번 답안을 입력하세요
           </span>
         )}
-        {currentValue && (
-          <div className="text-inbrain-lightblue text-[22px] font-bold">{currentValue}</div>
-        )}
+        {currentValue && <div className="text-gs1 text-[17px] font-bold">{currentValue}</div>}
       </div>
 
       {KEYPAD_ITEMS.map((item) => {

@@ -1,9 +1,39 @@
+import { GuideComment } from "@/features/tutorial/components/guideComment/GuideComment";
 import { NumericKeypad } from "@/shared/components/OMR/OMRBases/NumericKeypad";
 import { OMRContainer } from "@/shared/components/OMR/OMRBases/OMRContainer";
 import { OMRSubjectiveInput } from "@/shared/components/OMR/OMRBases/OMRSubjectiveInput";
 import { useSubjectiveAction } from "@/shared/hooks/useSubjectiveAction";
 
+import {
+  type TSubjectiveTutorialStep,
+  useOMRSubjectiveView,
+} from "../../hooks/useOMRSubjectiveView";
+import { FooterButtons } from "../footerButtons/FooterButtons";
+
+const getStepComponent = (step: TSubjectiveTutorialStep): [string, string] => {
+  switch (step) {
+    case "input":
+      return ["주관식 답안을 입력하려면 입력할 곳을 터치해요", "의 답안을 입력해볼까요?"];
+    case "submit":
+      return ["아무 숫자나 입력하고", " 버튼을 눌러서 답안을 작성해요"];
+    case "edit":
+      return ["입력한 답안을 수정하려면", "해당 문제를 다시 한 번 터치해요"];
+
+    default:
+      return ["", ""];
+  }
+};
+
 export const OMRSubjectiveView = () => {
+  const {
+    currentStep,
+    isClickableNextButton,
+    handleChangeStep,
+    handleClickNextButton,
+    handleClickPreviousButton,
+    getHighlightedWord,
+  } = useOMRSubjectiveView();
+
   const {
     answers,
     focusedField,
@@ -14,29 +44,50 @@ export const OMRSubjectiveView = () => {
     handleComplete,
   } = useSubjectiveAction();
 
-  return (
-    <div className="flex gap-8 self-start">
-      <OMRContainer>
-        <OMRSubjectiveInput
-          questionCount={12}
-          values={answers}
-          onChange={handleChange}
-          onFieldFocus={handleFieldFocus}
-          focusedField={focusedField}
-          fieldRefs={fieldRefs}
-          maxLength={15}
-        />
-      </OMRContainer>
+  const [comment1, comment2] = getStepComponent(currentStep);
 
-      {/* 키패드 - OMRContainer 밖으로 */}
-      <div className="mt-auto shrink-0">
-        <NumericKeypad
-          onInput={handleKeypadInput}
-          onComplete={handleComplete}
-          focusedField={focusedField}
-          currentValue={focusedField ? answers[focusedField] || "" : ""}
-        />
-      </div>
+  return (
+    <div className="mt-[-18px] flex flex-col gap-y-12 self-start">
+      <section className="mx-auto flex gap-8">
+        <OMRContainer className="rounded-t-none">
+          <OMRSubjectiveInput
+            questionCount={12}
+            values={answers}
+            onChange={handleChange}
+            onFieldFocus={handleFieldFocus}
+            focusedField={focusedField}
+            fieldRefs={fieldRefs}
+            maxLength={15}
+            isTutorial
+          />
+        </OMRContainer>
+
+        {/* 키패드  */}
+        <div className="mt-auto shrink-0">
+          <NumericKeypad
+            onInput={handleKeypadInput}
+            onComplete={handleComplete}
+            focusedField={focusedField}
+            currentValue={focusedField ? answers[focusedField] || "" : ""}
+          />
+        </div>
+      </section>
+      {/* TODO: 마지막일 경우 "좋아요! 다음으로 넘어가볼까요?" */}
+      <GuideComment comment={comment1} />
+      <p className="text-gs1 text-center text-4xl leading-none font-extrabold tracking-[0.36px]">
+        <span className="block">{comment1}</span>
+        <span className="mt-1.5 block">
+          <span>
+            <span className="text-inbrain-lightblue">{getHighlightedWord()}</span>
+          </span>
+          {comment2}
+        </span>
+      </p>
+      <FooterButtons
+        isNextButtonClickable={isClickableNextButton()}
+        handleClickPreviousButton={handleClickPreviousButton}
+        handleClickNextButton={handleClickNextButton}
+      />
     </div>
   );
 };

@@ -9,6 +9,7 @@ interface OMRSubjectiveInputProps {
   focusedField?: number | null;
   fieldRefs?: { current: Record<number, HTMLInputElement | null> };
   maxLength?: number;
+  isTutorial?: boolean;
 }
 
 export const OMRSubjectiveInput = ({
@@ -19,14 +20,17 @@ export const OMRSubjectiveInput = ({
   focusedField,
   fieldRefs,
   maxLength = 10,
+  isTutorial = false,
 }: OMRSubjectiveInputProps) => {
-  const { fieldValues, questionNumbers, handleInputFocus, handleInputChange } =
+  const { fieldValues, questionNumbers, handleInputFocus, handleInputChange, getPlaceholder } =
     useOMRSubjectiveInput({
       questionCount,
       values,
       onChange,
       onFieldFocus,
       maxLength,
+      isTutorial,
+      focusedField,
     });
 
   if (!fieldValues || !questionNumbers) return null;
@@ -51,9 +55,7 @@ export const OMRSubjectiveInput = ({
                 }}
                 type="text"
                 value={fieldValues[num] || ""}
-                placeholder={
-                  focusedField === num ? "답안을 입력하세요" : "터치해서 주관식 답안 입력"
-                }
+                placeholder={getPlaceholder(num)}
                 className={cn(
                   "placeholder:text-grayscale-400-100 max-h-[47.67px] w-[322px] py-[13.83px] text-center text-[17px] font-semibold outline-none placeholder:text-[17px]",
                   focusedField === num

@@ -8,6 +8,8 @@ interface UseOMRSubjectiveInputProps {
   onChange?: (questionNumber: number, value: string) => void;
   onFieldFocus?: (questionNumber: number) => void;
   maxLength: number;
+  isTutorial?: boolean;
+  focusedField?: number | null;
 }
 
 export const useOMRSubjectiveInput = ({
@@ -16,11 +18,24 @@ export const useOMRSubjectiveInput = ({
   onChange,
   onFieldFocus,
   maxLength,
+  isTutorial = false,
+  focusedField,
 }: UseOMRSubjectiveInputProps) => {
   const [fieldValues, setFieldValues] = useState<Record<number, string>>(values);
 
   // questionCount에 따라 질문 번호 배열 생성
   const questionNumbers = Array.from({ length: questionCount }, (_, i) => i + 1);
+
+  const getPlaceholder = (num: number) => {
+    if (focusedField === num) {
+      return "답안을 입력하세요";
+    }
+
+    if (isTutorial && num === 4) {
+      return "여기를 터치하세요!";
+    }
+    return "터치해서 주관식 답안 입력";
+  };
 
   const updateFieldValue = (questionNumber: number, value: string) => {
     const newValues = { ...fieldValues, [questionNumber]: value };
@@ -52,5 +67,6 @@ export const useOMRSubjectiveInput = ({
     questionNumbers,
     handleInputFocus,
     handleInputChange,
+    getPlaceholder,
   };
 };
