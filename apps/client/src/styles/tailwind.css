@@ -11,3 +11,7 @@
 
   --shadow-floating-sm: 0px 4px 16px 0px #00000026;
 }
+
+@utility bg-black-grad {
+  background-image: linear-gradient(135deg, #333333 0%, #333333 40%, #585858 100%);
+}

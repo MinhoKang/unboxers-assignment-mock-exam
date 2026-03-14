@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 
-import ExamPage from "../../features/exam/pages/ExamPage.tsx";
-import LoginPage from "../../features/exam/pages/LoginPage.tsx";
-import TutorialPage from "../../features/exam/pages/TutorialPage.tsx";
+import ExamPage from "../../pages/ExamPage.tsx";
+import LoginPage from "../../pages/LoginPage.tsx";
+import TutorialPage from "../../pages/TutorialPage.tsx";
 
 function AppRouter() {
   return (
