@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router-dom";
 
 import { Header } from "@/features/tutorial/components/header/Header";
 import { OMRMultipleChoiceView } from "@/features/tutorial/components/views/OMRMultipleChoiceView";
+import { OMRSubjectiveView } from "@/features/tutorial/components/views/OMRSubjectiveView";
 import { StartView } from "@/features/tutorial/components/views/StartView";
 import type { TTutorialDirection } from "@/features/tutorial/types/tutorialTypes";
 
@@ -29,6 +30,7 @@ const TutorialPage = () => {
       <section className="flex w-full flex-1 items-center justify-center">
         {currentStep === 1 && <StartView onStepChange={() => handleStepChange("next")} />}
         {currentStep === 2 && <OMRMultipleChoiceView onStepChange={handleStepChange} />}
+        {currentStep === 3 && <OMRSubjectiveView />}
       </section>
     </main>
   );

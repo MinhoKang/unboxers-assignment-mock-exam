@@ -27,3 +27,12 @@ export const getChoicesColumns = (columnCount: number, totalQuestions: number) =
  */
 export const getReaderBarKeys = (choiceCount: number) =>
   Array.from({ length: choiceCount }, (_, i) => i);
+
+/**
+ * 문자가 유효한 문자인지 확인합니다.
+ * @param char 문자
+ * @returns 유효한 문자인지 여부
+ */
+export const isValidChar = (char: string): boolean => {
+  return /^[0-9./-]$/.test(char);
+};

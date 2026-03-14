@@ -4,11 +4,13 @@
   --font-sans: "Pretendard Variable", "Pretendard", "SUIT", system-ui, sans-serif;
 
   --color-gs1: #090909;
+  --color-gs2: #858585;
   --color-gs3: #b6b6b6;
   --color-gs4: #f5f5f5;
   --color-gs5: #fafafa;
   --color-gs6: #ffffff;
 
+  --color-grayscale-400-100: #bdbcb8;
   --color-grayscale-500-100: #a5a4a0;
 
   --color-inbrain-blue: #364f8e;
@@ -24,4 +26,8 @@
 
 @utility bg-black-grad {
   background-image: linear-gradient(135deg, #333333 0%, #333333 40%, #585858 100%);
+}
+
+@utility bg-blue-grad {
+  background-image: linear-gradient(135deg, #364f8e 0%, #5784f1 100%);
 }
