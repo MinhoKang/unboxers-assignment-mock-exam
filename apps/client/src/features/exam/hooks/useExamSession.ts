@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 
-// TODO: 15, 20으로 원복
 /**
  * @description 시연 편의를 위해 대기/시험 시간을 축소한 임시 설정입니다.
  */
-export const WAITING_TIME_SECONDS = 1;
-export const EXAM_TIME_SECONDS = 1;
+export const WAITING_TIME_SECONDS = 15;
+export const EXAM_TIME_SECONDS = 20;
 
 const TOTAL_SESSION_SECONDS = WAITING_TIME_SECONDS + EXAM_TIME_SECONDS;
 

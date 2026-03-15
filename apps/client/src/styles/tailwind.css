@@ -27,6 +27,29 @@
 
   /* 정의되지 않은 색상 */
   --color-omr-bg: #fffdf1;
+
+  /* --- 추가된 상태 및 배경 색상 토큰 --- */
+
+  /* 총점 영역 (Brand Blue 기반) */
+  /* 로고의 네이비 색상에 물을 많이 탄 듯한 차분한 배경 */
+  --color-score-bg: #eef1f7;
+
+  /* 정답 영역 (Sage Green) */
+  /* 쨍한 초록 대신, 눈이 편안한 세이지/올리브 톤 */
+  --color-correct-bg: #edf2ee;
+  --color-correct-text: #2a7a44;
+  --color-correct-label: #1e5c33;
+
+  /* 오답 영역 (Dusty Rose / Brick) */
+  /* 핑크빛 대신 차분한 벽돌색/인디핑크 톤 */
+  --color-incorrect-bg: #f8eeee;
+  --color-incorrect-label: #b83a36;
+  --color-incorrect-border: #da423e;
+
+  /* 미응답 영역 (Warm Gray) */
+  /* 차가운 회색 대신 종이 질감에 어울리는 웜그레이 */
+  --color-unanswered-bg: #f1f3f5;
+  --color-unanswered-text: #495057;
 }
 
 @utility bg-black-grad {

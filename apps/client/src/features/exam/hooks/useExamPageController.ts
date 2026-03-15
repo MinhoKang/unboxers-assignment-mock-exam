@@ -155,7 +155,7 @@ export const useExamPageController = () => {
    * @description 스캔 애니메이션 완료 시 결과 페이지로 이동합니다.
    */
   const handleScanComplete = () => {
-    navigate("/exam/result", { replace: true });
+    navigate("/exam/result");
   };
 
   /**
