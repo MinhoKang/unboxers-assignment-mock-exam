@@ -19,8 +19,8 @@ export const OMRObjectiveButton = ({
       type="button"
       className={cn(
         isSelected ? "bg-gs1" : "bg-grayscale-500-100",
-        isDisabled && "cursor-not-allowed opacity-60",
-        "h-11 rounded-[20px] transition-opacity",
+        isDisabled && "cursor-not-allowed",
+        "h-11 rounded-[20px]",
       )}
       style={{ width: OMR_STYLES.BUBBLE_WIDTH }}
       onClick={onSelect}

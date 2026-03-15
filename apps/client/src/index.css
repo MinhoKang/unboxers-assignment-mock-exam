@@ -84,24 +84,3 @@
     min-height: 100vh;
   }
 }
-
-@keyframes omr-scan {
-  0%,
-  100% {
-    transform: translateX(-120%);
-    opacity: 0;
-  }
-
-  20% {
-    opacity: 1;
-  }
-
-  50% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-
-  80% {
-    opacity: 1;
-  }
-}
