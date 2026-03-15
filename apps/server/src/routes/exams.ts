@@ -76,9 +76,9 @@ const gradeAnswersSchema = z.object({
   grade: z.number().int(),
   studentNumber: z.number().int(),
   seatNumber: z.number().int(),
-  answers: z
-    .array(z.discriminatedUnion("answerType", [objectiveAnswerSchema, subjectiveAnswerSchema]))
-    .min(1)
+  answers: z.array(
+    z.discriminatedUnion("answerType", [objectiveAnswerSchema, subjectiveAnswerSchema])
+  )
 });
 
 function buildGradeResponse(

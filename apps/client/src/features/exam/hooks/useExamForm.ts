@@ -16,7 +16,11 @@ import {
   SUBJECTIVE_QUESTION_COUNT,
   TOTAL_QUESTION_COUNT,
 } from "../constants/examForm";
-import { buildPostExamPayload } from "../helpers/examFormHelpers";
+import {
+  buildExamAnswers,
+  buildPostExamPayload,
+  buildStudentNumber,
+} from "../helpers/examFormHelpers";
 import { examFormSchema, postExamSchema, type TExamFormValues } from "../schemas/postExamSchema";
 
 /**
@@ -28,6 +32,7 @@ export const useExamForm = () => {
    * @description 현재 키패드 입력 대상이 되는 주관식 문항 번호입니다.
    */
   const [focusedField, setFocusedField] = useState<number | null>(null);
+  const [hasSubmittedSuccessfully, setHasSubmittedSuccessfully] = useState(false);
 
   /**
    * @description 주관식 입력 필드의 DOM ref 집합입니다.
@@ -46,7 +51,7 @@ export const useExamForm = () => {
   /**
    * @description react-hook-form 제어 객체와 값 접근 및 변경 API입니다.
    */
-  const { control, getValues, setValue, handleSubmit } = useForm<TExamFormValues>({
+  const { control, getValues, setValue } = useForm<TExamFormValues>({
     resolver: zodResolver(examFormSchema),
     defaultValues: {
       ...DEFAULT_STUDENT_INFO,
@@ -89,6 +94,8 @@ export const useExamForm = () => {
     control,
     name: ["objectiveAnswers", "subjectiveAnswers"] as const,
   });
+  const isStudentIdentityComplete = grade !== null && buildStudentNumber(studentNumber) !== null;
+  const hasAnyAnswers = buildExamAnswers(objectiveAnswers, subjectiveAnswers).length > 0;
 
   /**
    * 학년 마킹을 토글하고 폼 상태를 검증합니다.
@@ -211,33 +218,42 @@ export const useExamForm = () => {
     setFocusedField(null);
   };
 
+  const clearSubjectiveFocus = () => {
+    if (!focusedField) {
+      return;
+    }
+
+    fieldRefs.current[focusedField]?.blur();
+    setFocusedField(null);
+  };
+
   /**
    * 폼 제출 시 payload를 조립하고 API 요청을 실행합니다.
-   * @returns react-hook-form submit handler
+   * @returns 제출 성공 여부
    */
-  const submitExam = handleSubmit(
-    async (values) => {
-      const payloadResult = postExamSchema.safeParse(buildPostExamPayload(values));
+  const submitExam = async () => {
+    if (isSubmitting || hasSubmittedSuccessfully) {
+      return false;
+    }
 
-      if (!payloadResult.success) {
-        toast.error(payloadResult.error.issues[0]?.message ?? "답안 제출에 실패했습니다.");
-        console.error(payloadResult.error);
-        return;
-      }
+    const values = getValues();
+    const payloadResult = postExamSchema.safeParse(buildPostExamPayload(values));
 
+    if (!payloadResult.success) {
+      toast.error(payloadResult.error.issues[0]?.message ?? "답안 제출에 실패했습니다.");
+      console.error(payloadResult.error);
+      return false;
+    }
+
+    try {
       await submitExamMutation(payloadResult.data);
-    },
-    (errors) => {
-      const firstError = Object.values(errors)[0];
-      const message =
-        firstError && "message" in firstError && typeof firstError.message === "string"
-          ? firstError.message
-          : "답안 제출에 실패했습니다.";
-
-      toast.error(message);
-      console.error(errors);
-    },
-  );
+      clearSubjectiveFocus();
+      setHasSubmittedSuccessfully(true);
+      return true;
+    } catch {
+      return false;
+    }
+  };
 
   return {
     examTitle,
@@ -256,7 +272,10 @@ export const useExamForm = () => {
     focusedField,
     fieldRefs,
     currentSubjectiveValue: focusedField ? subjectiveAnswers[focusedField] || "" : "",
+    isStudentIdentityComplete,
+    hasAnyAnswers,
     isSubmitting,
+    hasSubmittedSuccessfully,
     handleGradeChange,
     handleNumberChange,
     handleSelectObjective,
@@ -264,6 +283,7 @@ export const useExamForm = () => {
     handleSubjectiveFieldFocus,
     handleKeypadInput,
     handleComplete,
+    clearSubjectiveFocus,
     submitExam,
   };
 };

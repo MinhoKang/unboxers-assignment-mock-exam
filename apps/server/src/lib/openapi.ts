@@ -108,6 +108,7 @@ export const openApiDocument = {
           seatNumber: { type: "integer" },
           answers: {
             type: "array",
+            description: "빈 배열도 허용됩니다.",
             example: [
               {
                 answerType: "objective",

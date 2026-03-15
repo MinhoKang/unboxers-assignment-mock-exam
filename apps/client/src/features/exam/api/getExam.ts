@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { API_URL } from "../../../constants/api";
-import type { TSuccessResponse } from "../types/apiTypes";
+import type { TSuccessResponse } from "../../../shared/types/apiTypes";
 
 export interface TGetExamResponse {
   title: string;
