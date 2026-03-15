@@ -1,7 +1,11 @@
+import { useNavigate } from "react-router-dom";
+
 import { Dropdown } from "@/shared/components/dropdown/Dropdown";
 import { Logo } from "@/shared/icons";
 
 export const TutorialHeader = () => {
+  const navigate = useNavigate();
+
   return (
     <header className="bg-gs6 sticky top-0 z-10 grid grid-cols-3 items-center px-6 py-[12.5px]">
       <Logo
@@ -20,7 +24,7 @@ export const TutorialHeader = () => {
             { label: "강민호 학생", value: "강민호 학생" },
           ]}
         />
-        <button className="px-4 py-3">
+        <button className="px-4 py-3" onClick={() => navigate("/")}>
           <span className="text-gs1 text-[17px] font-bold">홈으로</span>
         </button>
       </div>

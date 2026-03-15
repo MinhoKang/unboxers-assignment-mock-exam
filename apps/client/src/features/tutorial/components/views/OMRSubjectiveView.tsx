@@ -54,7 +54,7 @@ export const OMRSubjectiveView = ({
   const [comment1, comment2] = getStepComponent(currentStep);
 
   return (
-    <div className="mt-[-18px] flex flex-col gap-y-12 self-start">
+    <div className="mx-auto mt-[-18px] flex w-full max-w-[1200px] flex-col gap-y-12">
       <section className="mx-auto flex gap-8">
         <OMRContainer className="w-[408px] rounded-t-none">
           <OMRSubjectiveInputs

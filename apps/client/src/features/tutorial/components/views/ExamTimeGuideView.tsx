@@ -5,6 +5,8 @@ import type { TTutorialDirection } from "@/features/tutorial/types/tutorialTypes
 import { Button } from "@/shared/components/button/Button";
 import { ChevronLeft } from "@/shared/icons";
 
+const EXAM_TIME_GUIDE_STAGE_MIN_HEIGHT = "calc(100dvh - 75px - 5rem)";
+
 export const ExamTimeGuideView = ({
   onStepChange,
 }: {
@@ -13,10 +15,13 @@ export const ExamTimeGuideView = ({
   const navigate = useNavigate();
 
   return (
-    <div className="flex w-full flex-1 flex-col items-center self-stretch">
-      <div className="flex min-h-0 w-[1200px] flex-1 flex-col">
+    <div className="flex w-full flex-col items-center self-stretch">
+      <div
+        className="flex w-full max-w-[1200px] flex-col"
+        style={{ minHeight: EXAM_TIME_GUIDE_STAGE_MIN_HEIGHT }}
+      >
         <div className="flex flex-1 flex-col items-center justify-center gap-y-12">
-          <ExamControlBar status="examining" remainingTime={5} totalTime={3600} />
+          <ExamControlBar status="examining" remainingTime={5} totalTime={60} />
           <div className="flex flex-col items-center justify-center gap-y-1 *:text-4xl *:font-extrabold">
             <p>시간이 모두 지나면 시험은 종료되고 OMR카드는 자동으로 제출돼요</p>
             <p className="text-red">마킹하지 못한 답안은 모두 오답 처리되니 미리 마킹하세요</p>

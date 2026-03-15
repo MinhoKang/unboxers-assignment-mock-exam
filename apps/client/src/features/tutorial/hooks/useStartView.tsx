@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 
 import type { TTutorialDirection } from "../types/tutorialTypes";
 
+type TStartTutorialStep = 1 | 2;
+
 export const useStartView = ({
   onStepChange,
 }: {
   onStepChange: (direction: TTutorialDirection) => void;
 }) => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState<TStartTutorialStep>(1);
 
   const navigate = useNavigate();
 
@@ -33,17 +35,21 @@ export const useStartView = ({
     }
   };
 
+  const handleChangeStep = (step: TStartTutorialStep) => {
+    setCurrentStep(step);
+  };
+
   const handleClickPreviousButton = () => {
     if (currentStep === 1) {
       navigate("/exam");
     } else {
-      setCurrentStep(currentStep - 1);
+      handleChangeStep(1);
     }
   };
 
   const handleClickNextButton = () => {
     if (currentStep === 1) {
-      setCurrentStep(2);
+      handleChangeStep(2);
     } else {
       // 다음 step으로 이동
       onStepChange("next");

@@ -43,7 +43,7 @@ export const OMRObjectiveView = ({
   const [comment1, comment2] = getStepComponent(currentStep);
 
   return (
-    <div className="flex w-full flex-col gap-y-12 self-start">
+    <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-y-12">
       <div className="flex flex-col gap-y-12">
         <OMRContainer className="mx-auto mt-[-18px] rounded-t-none">
           <OMRObjectiveInputs totalQuestions={30} answers={answers} onSelect={handleSelect} />

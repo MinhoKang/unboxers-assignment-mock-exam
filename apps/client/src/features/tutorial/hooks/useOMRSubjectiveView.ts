@@ -70,7 +70,7 @@ export const useOMRSubjectiveView = ({
 
   const handleClickCompleteButton = () => {
     if (currentStep === "edit") return;
-    setCurrentStep("edit");
+    handleChangeStep("edit");
 
     // 4번 문제를 완료했을 때 상태 업데이트
     if (focusedField === 4) {

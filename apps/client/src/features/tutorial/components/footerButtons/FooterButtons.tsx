@@ -21,7 +21,7 @@ export const FooterButtons = ({
   };
 
   return (
-    <div className="mx-auto flex w-[1200px] items-center justify-between gap-x-4">
+    <div className="mx-auto flex w-[1200px] items-center justify-between gap-x-4 pb-20">
       <Button
         label="이전으로"
         variant="white"
