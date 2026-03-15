@@ -3,12 +3,12 @@ import { useRef, useState } from "react";
 import { isValidChar } from "@/shared/helpers/omrs";
 
 export const useSubjectiveAction = () => {
-  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [subjectiveAnswers, setSubjectiveAnswers] = useState<Record<number, string>>({});
   const [focusedField, setFocusedField] = useState<number | null>(null);
   const fieldRefs = useRef<Record<number, HTMLInputElement | null>>({});
 
   const handleChange = (questionNumber: number, value: string) => {
-    setAnswers((prev) => ({ ...prev, [questionNumber]: value }));
+    setSubjectiveAnswers((prev) => ({ ...prev, [questionNumber]: value }));
   };
 
   const handleFieldFocus = (questionNumber: number) => {
@@ -18,7 +18,7 @@ export const useSubjectiveAction = () => {
   const handleKeypadInput = (value: string) => {
     if (!focusedField) return;
 
-    const currentValue = answers[focusedField] || "";
+    const currentValue = subjectiveAnswers[focusedField] || "";
 
     if (value === "backspace") {
       const newValue = currentValue.slice(0, -1);
@@ -30,14 +30,15 @@ export const useSubjectiveAction = () => {
   };
 
   const handleComplete = () => {
-    if (!focusedField || !(answers[focusedField] || "").length) return;
+    if (!focusedField || !(subjectiveAnswers[focusedField] || "").length) return;
 
     fieldRefs.current[focusedField]?.blur();
     setFocusedField(null);
   };
 
   return {
-    answers,
+    answers: subjectiveAnswers,
+    subjectiveAnswers,
     focusedField,
     fieldRefs,
     handleChange,

@@ -1,10 +1,16 @@
 import { Dropdown } from "@/shared/components/dropdown/Dropdown";
-import { LogoBlack } from "@/shared/icons";
+import { Logo } from "@/shared/icons";
 
 export const TutorialHeader = () => {
   return (
     <header className="bg-gs6 sticky top-0 z-10 grid grid-cols-3 items-center px-6 py-[12.5px]">
-      <LogoBlack />
+      <Logo
+        gradientStops={[
+          { color: "#333333" },
+          { color: "#333333", offset: "0.4" },
+          { color: "#585858", offset: "1" },
+        ]}
+      />
       <h2 className="text-logo-black mx-auto text-xl font-bold">모의고사 모드</h2>
       <div className="flex items-center justify-end gap-x-4">
         <Dropdown

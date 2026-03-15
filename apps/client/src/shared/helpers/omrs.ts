@@ -1,3 +1,5 @@
+import { OMR_STYLES } from "../constants/omrStyles";
+
 /**
  * 총 문항 수를 받아 컬럼 수를 반환합니다.
  * @param totalQuestions 총 문항 수
@@ -36,3 +38,15 @@ export const getReaderBarKeys = (choiceCount: number) =>
 export const isValidChar = (char: string): boolean => {
   return /^[0-9./-]$/.test(char);
 };
+
+/**
+ *
+ * @param choiceCount 선택지 수
+ * @returns 버블 트랙 스타일
+ */
+export const getObjectiveBubbleTrackStyle = (choiceCount: number) => ({
+  gridTemplateColumns: `repeat(${choiceCount}, ${OMR_STYLES.BUBBLE_WIDTH}px)`,
+  columnGap: `${OMR_STYLES.OBJECTIVE_BUBBLE_GAP}px`,
+});
+
+export const getExamCardBubbleTrackStyle = getObjectiveBubbleTrackStyle;

@@ -2,8 +2,8 @@ import { GuideDescription } from "@/features/tutorial/components/guideDescriptio
 import type { TTutorialDirection } from "@/features/tutorial/types/tutorialTypes";
 import { NumericKeypad } from "@/shared/components/OMR/OMRBases/NumericKeypad";
 import { OMRContainer } from "@/shared/components/OMR/OMRBases/OMRContainer";
-import { OMRSubjectiveInput } from "@/shared/components/OMR/OMRBases/OMRSubjectiveInput";
-import { useSubjectiveAction } from "@/shared/hooks/useSubjectiveAction";
+import { OMRSubjectiveInputs } from "@/shared/components/OMR/OMRBases/OMRSubjectiveInputs";
+import { useSubjectiveAction } from "@/shared/hooks/OMR/useSubjectiveAction";
 
 import { getGuideDescription } from "../../helpers/getGuideDescription";
 import {
@@ -56,8 +56,8 @@ export const OMRSubjectiveView = ({
   return (
     <div className="mt-[-18px] flex flex-col gap-y-12 self-start">
       <section className="mx-auto flex gap-8">
-        <OMRContainer className="rounded-t-none">
-          <OMRSubjectiveInput
+        <OMRContainer className="w-[408px] rounded-t-none">
+          <OMRSubjectiveInputs
             questionCount={12}
             values={answers}
             onChange={handleChange}

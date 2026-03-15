@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { isValidChar } from "../helpers/omrs";
+import { isValidChar } from "../../helpers/omrs";
 
 interface UseOMRSubjectiveInputProps {
   questionCount: number;

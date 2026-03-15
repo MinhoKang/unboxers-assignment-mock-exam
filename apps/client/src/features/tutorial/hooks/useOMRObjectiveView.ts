@@ -3,19 +3,19 @@ import { useState } from "react";
 import type { TTutorialDirection } from "@/features/tutorial/types/tutorialTypes";
 
 // 객관식 OMR 튜토리얼 단계
-export type TMultipleChoiceTutorialStep = "single" | "remove" | "multiple";
+export type TOObjectiveTutorialStep = "single" | "remove" | "multiple";
 
 const hasMultipleChoices = (answers: Record<number, number[]>) => {
   return Object.values(answers).some((choices) => choices.length >= 2);
 };
 
-export const useOMRMultipleChoiceView = ({
+export const useOMRObjectiveView = ({
   onStepChange,
 }: {
   onStepChange: (direction: TTutorialDirection) => void;
 }) => {
   const [answers, setAnswers] = useState<Record<number, number[]>>({});
-  const [currentStep, setCurrentStep] = useState<TMultipleChoiceTutorialStep>("single");
+  const [currentStep, setCurrentStep] = useState<TOObjectiveTutorialStep>("single");
 
   const getIsClickableNextButton = () => {
     switch (currentStep) {
@@ -48,7 +48,7 @@ export const useOMRMultipleChoiceView = ({
     });
   };
 
-  const handleChangeStep = (step: TMultipleChoiceTutorialStep) => {
+  const handleChangeStep = (step: TOObjectiveTutorialStep) => {
     setCurrentStep(step);
   };
 

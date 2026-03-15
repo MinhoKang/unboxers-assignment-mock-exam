@@ -1,8 +1,8 @@
 import { GuideDescription } from "@/features/tutorial/components/guideDescription/GuideDescription";
 import {
-  type TMultipleChoiceTutorialStep,
-  useOMRMultipleChoiceView,
-} from "@/features/tutorial/hooks/useOMRMultipleChoiceView";
+  type TOObjectiveTutorialStep,
+  useOMRObjectiveView,
+} from "@/features/tutorial/hooks/useOMRObjectiveView";
 import type { TTutorialDirection } from "@/features/tutorial/types/tutorialTypes";
 import { OMRContainer } from "@/shared/components/OMR/OMRBases/OMRContainer";
 import { OMRObjectiveInputs } from "@/shared/components/OMR/OMRBases/OMRObjectiveInputs";
@@ -10,7 +10,7 @@ import { OMRObjectiveInputs } from "@/shared/components/OMR/OMRBases/OMRObjectiv
 import { getGuideDescription } from "../../helpers/getGuideDescription";
 import { FooterButtons } from "../footerButtons/FooterButtons";
 
-const getStepComponent = (step: TMultipleChoiceTutorialStep): [string, string] => {
+const getStepComponent = (step: TOObjectiveTutorialStep): [string, string] => {
   switch (step) {
     case "single":
       return ["객관식 답안은 화면을 터치해서 마킹해요", "으로 답안을 마킹해보세요"];
@@ -38,7 +38,7 @@ export const OMRObjectiveView = ({
     handleClickPreviousButton,
     isShowQuestionNumber,
     getIsClickableNextButton,
-  } = useOMRMultipleChoiceView({ onStepChange });
+  } = useOMRObjectiveView({ onStepChange });
 
   const [comment1, comment2] = getStepComponent(currentStep);
 

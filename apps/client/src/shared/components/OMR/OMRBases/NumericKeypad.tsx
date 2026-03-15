@@ -1,4 +1,5 @@
 import { KEYPAD_ITEMS } from "@/shared/constants/omrs";
+import { OMR_STYLES } from "@/shared/constants/omrStyles";
 import { cn } from "@/shared/helpers/cn";
 import { isValidChar } from "@/shared/helpers/omrs";
 
@@ -63,7 +64,7 @@ export const NumericKeypad = ({
   };
 
   return (
-    <div className="grid w-[243px] grid-cols-3 gap-3">
+    <div className="grid grid-cols-3 gap-3" style={{ width: OMR_STYLES.NUMERIC_KEYPAD_WIDTH }}>
       <div
         className={cn(
           "shadow-floating-xs col-span-3 flex h-13 items-center justify-center rounded-xl bg-white px-4 text-center",

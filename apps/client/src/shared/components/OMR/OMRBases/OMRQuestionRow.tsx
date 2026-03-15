@@ -1,3 +1,7 @@
+import { OMR_STYLES } from "@/shared/constants/omrStyles";
+import { getExamCardBubbleTrackStyle } from "@/shared/helpers/omrs";
+import type { TOmrVariant } from "@/shared/types/omrsTypes";
+
 import { OMRObjectiveButton } from "./OMRObjectiveButton";
 
 interface QuestionRowProps {
@@ -5,6 +9,7 @@ interface QuestionRowProps {
   choiceCount: number;
   selectedChoices: number[];
   onSelect: (question: number, choice: number) => void;
+  variant?: TOmrVariant;
 }
 
 export const QuestionRow = ({
@@ -12,26 +17,64 @@ export const QuestionRow = ({
   choiceCount,
   selectedChoices,
   onSelect,
+  variant = "default",
 }: QuestionRowProps) => {
   const choices = Array.from({ length: choiceCount }, (_, i) => i + 1);
+  const isExamCard = variant === "examCard";
+  const bubbleTrackStyle = getExamCardBubbleTrackStyle(choiceCount);
 
   return (
-    <div className="flex items-center">
-      <div className="bg-inbrain-lightblue/20 border-x-inbrain-lightblue flex w-7 shrink-0 items-center justify-center self-stretch border-x-[1.5px]">
-        <span className="text-inbrain-blue shrink-0 text-right text-xs font-bold">
-          {questionNumber}
-        </span>
-      </div>
-      <div className="flex gap-x-2.5 px-2 py-1.5">
-        {choices.map((choice) => (
-          <OMRObjectiveButton
-            key={choice}
-            number={choice}
-            isSelected={selectedChoices.includes(choice)}
-            onSelect={() => onSelect(questionNumber, choice)}
-          />
-        ))}
-      </div>
+    <div
+      className="flex w-full items-center"
+      style={isExamCard ? { height: OMR_STYLES.ROW_HEIGHT } : undefined}
+    >
+      {isExamCard ? (
+        <div
+          className="bg-inbrain-lightblue/15 border-inbrain-lightblue flex h-full shrink-0 items-center justify-center border-r-[1.5px]"
+          style={{ width: OMR_STYLES.LABEL_WIDTH }}
+        >
+          <span className="text-inbrain-blue text-[11px] font-black">{questionNumber}</span>
+        </div>
+      ) : (
+        <div className="bg-inbrain-lightblue/20 border-x-inbrain-lightblue flex w-7 shrink-0 items-center justify-center self-stretch border-x-[1.5px]">
+          <span className="text-inbrain-blue shrink-0 text-right text-xs font-bold">
+            {questionNumber}
+          </span>
+        </div>
+      )}
+      {isExamCard ? (
+        <div className="flex flex-1 justify-center">
+          <div
+            className="grid items-center px-[6px]"
+            style={{
+              ...bubbleTrackStyle,
+              width: OMR_STYLES.OBJECTIVE_TRACK_WIDTH,
+              paddingLeft: OMR_STYLES.OBJECTIVE_TRACK_PADDING_X,
+              paddingRight: OMR_STYLES.OBJECTIVE_TRACK_PADDING_X,
+            }}
+          >
+            {choices.map((choice) => (
+              <OMRObjectiveButton
+                key={choice}
+                number={choice}
+                isSelected={selectedChoices.includes(choice)}
+                onSelect={() => onSelect(questionNumber, choice)}
+              />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="flex gap-x-2.5 px-2 py-1.5">
+          {choices.map((choice) => (
+            <OMRObjectiveButton
+              key={choice}
+              number={choice}
+              isSelected={selectedChoices.includes(choice)}
+              onSelect={() => onSelect(questionNumber, choice)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
