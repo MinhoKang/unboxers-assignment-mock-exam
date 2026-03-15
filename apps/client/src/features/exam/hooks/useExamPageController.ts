@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import type { TGradeValue } from "@/shared/types/omrsTypes";
 
+import { buildStudentNumber } from "../helpers/examFormHelpers";
 import type {
   TExamCompletionStatus,
   TExamResultScreenData,
@@ -17,6 +18,28 @@ const TOAST_IDS = {
   finished: "exam-finished",
   submitted: "exam-submitted",
 } as const;
+
+const getMissingIdentitySubmitMessage = ({
+  isGradeMissing,
+  isStudentNumberMissing,
+}: {
+  isGradeMissing: boolean;
+  isStudentNumberMissing: boolean;
+}) => {
+  if (isGradeMissing && isStudentNumberMissing) {
+    return "학년과 번호를 기입하고 제출해주세요.";
+  }
+
+  if (isGradeMissing) {
+    return "학년을 기입하고 제출해주세요.";
+  }
+
+  if (isStudentNumberMissing) {
+    return "번호를 기입하고 제출해주세요.";
+  }
+
+  return null;
+};
 
 /**
  * 시험 화면의 세션 상태, 입력 가능 여부, 토스트, 자동 제출 흐름을 조합합니다.
@@ -35,7 +58,6 @@ export const useExamPageController = () => {
   const examForm = useExamForm();
 
   const {
-    isStudentIdentityComplete,
     hasSubmittedSuccessfully,
     clearSubjectiveFocus,
     submitExam,
@@ -107,6 +129,10 @@ export const useExamPageController = () => {
    * @description 답안은 시험 진행 중에만 수정 가능하며, 종료 또는 제출 완료 후에는 잠급니다.
    */
   const canEditAnswers = !hasSubmittedSuccessfully && examSession.status === "examining";
+  const missingIdentitySubmitMessage = getMissingIdentitySubmitMessage({
+    isGradeMissing: examForm.grade === null,
+    isStudentNumberMissing: buildStudentNumber(examForm.studentNumber) === null,
+  });
 
   /**
    * @description 이미 제출된 상태에서 추가 조작이 들어오면 중복 제출 방지 토스트를 노출합니다.
@@ -130,6 +156,15 @@ export const useExamPageController = () => {
    * @description 현재 시험 단계에 맞는 공통 잠금 토스트를 노출합니다.
    * @returns void
    */
+  const showMissingIdentitySubmitToast = () => {
+    if (!missingIdentitySubmitMessage) {
+      return false;
+    }
+
+    toast.error(missingIdentitySubmitMessage, { id: TOAST_IDS.finished });
+    return true;
+  };
+
   const showAnswerLockToast = () => {
     if (hasSubmittedSuccessfully) {
       showSubmittedToast();
@@ -142,12 +177,11 @@ export const useExamPageController = () => {
     }
 
     if (examSession.status === "finished") {
-      toast.error(
-        isStudentIdentityComplete
-          ? "시험이 종료되어 답안을 더 수정할 수 없습니다."
-          : "시험이 종료되었습니다. 학년과 번호를 입력한 뒤 제출해주세요.",
-        { id: TOAST_IDS.finished },
-      );
+      if (showMissingIdentitySubmitToast()) {
+        return;
+      }
+
+      toast.error("시험이 종료되어 답안을 더 수정할 수 없습니다.", { id: TOAST_IDS.finished });
     }
   };
 
@@ -194,12 +228,24 @@ export const useExamPageController = () => {
    * @returns Promise<void>
    */
   const handleFinishedTransition = useEffectEvent(async () => {
-    if (!isStudentIdentityComplete || hasSubmittedSuccessfully) {
+    if (hasSubmittedSuccessfully) {
+      return;
+    }
+
+    if (showMissingIdentitySubmitToast()) {
       return;
     }
 
     await submitExam();
   });
+
+  const handleSubmit = async () => {
+    if (examSession.status === "finished" && showMissingIdentitySubmitToast()) {
+      return false;
+    }
+
+    return submitExam();
+  };
 
   /**
    * @description 답안 수정이 막히는 시점에는 주관식 포커스를 즉시 해제해 키패드 입력이 이어지지 않도록 합니다.
@@ -283,7 +329,7 @@ export const useExamPageController = () => {
       status: examSession.status,
       remainingTime: examSession.remainingTime,
       totalTime: examSession.totalTime,
-      onSubmit: submitExam,
+      onSubmit: handleSubmit,
       isSubmitting: examForm.isSubmitting,
       isSubmitDisabled: hasSubmittedSuccessfully,
       submitLabel: hasSubmittedSuccessfully ? "제출 완료" : undefined,
