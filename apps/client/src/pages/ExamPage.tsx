@@ -19,10 +19,10 @@ const ExamPage = () => {
   } = useSubjectiveAction();
 
   return (
-    <div className="bg-gs4 flex min-h-screen w-full flex-col">
-      <section className="flex w-full flex-1 flex-col px-[26.04px] py-[25px]">
+    <div className="bg-gs4 flex min-h-screen w-full flex-col gap-y-[130px]">
+      <section className="flex w-full flex-1 flex-col gap-y-[63.5px] px-[26.04px] py-[25px]">
         <ExamHeader />
-        <div className="flex flex-col items-start gap-y-8">
+        <div className="flex items-center justify-center gap-x-15">
           {/* OMR 카드 */}
           <OMRCard
             objectiveAnswers={objectiveAnswers}
@@ -34,7 +34,7 @@ const ExamPage = () => {
             onSubjectiveFieldFocus={handleFieldFocus}
           />
 
-          {/* 기존 키패드 영역 */}
+          {/* 키패드 영역 */}
           <div className="flex items-center gap-x-15">
             <div className="flex w-[243px] flex-col gap-y-6">
               <NumericKeypadGuide />

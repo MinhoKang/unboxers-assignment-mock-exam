@@ -5,6 +5,9 @@ const NUMERIC_KEYPAD_GUIDE_LINES = [
   "",
   "단위가 포함된 주관식 답안은 숫자만 입력합니다.",
   "",
+] as const;
+
+const NUMERIC_KEYPAD_EXAMPLE_LINES = [
   "예시)",
   "제3사분면 → 3",
   "3,700만원 → 37000000",
@@ -13,16 +16,30 @@ const NUMERIC_KEYPAD_GUIDE_LINES = [
 
 export const NumericKeypadGuide = () => {
   return (
-    <div className="flex flex-col gap-y-2">
+    <div className="flex flex-col gap-y-1.5">
       {NUMERIC_KEYPAD_GUIDE_LINES.map((line, index) =>
         line ? (
-          <p key={`${index}-${line}`} className="text-grayscale-700-100 text-[12px] font-semibold">
+          <p
+            key={`${index}-${line}`}
+            className="text-grayscale-700-100 text-[12px] leading-none font-semibold"
+          >
             {line}
           </p>
         ) : (
           <div key={`spacer-${index}`} className="h-2" aria-hidden />
         ),
       )}
+
+      <div className="flex flex-col">
+        {NUMERIC_KEYPAD_EXAMPLE_LINES.map((line, index) => (
+          <p
+            key={`${index}-${line}`}
+            className="text-grayscale-700-100 text-[12px] leading-none font-semibold"
+          >
+            {line}
+          </p>
+        ))}
+      </div>
     </div>
   );
 };

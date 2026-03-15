@@ -8,8 +8,8 @@ function AppRouter() {
   return (
     <Routes>
       <Route path="/" index element={<LoginPage />} />
-      <Route path="/exam" element={<ExamPage />} />
       <Route path="/tutorial" element={<TutorialPage />} />
+      <Route path="/exam" element={<ExamPage />} />
     </Routes>
   );
 }

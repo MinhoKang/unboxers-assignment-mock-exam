@@ -31,7 +31,7 @@ export const OMRCard = ({
 
   return (
     <OMRContainer className="w-fit overflow-hidden rounded-3xl px-4 py-3 pb-[2px]">
-      <div className="flex items-stretch">
+      <div className="flex items-stretch overflow-x-auto">
         <div className="flex flex-col" style={{ width: OMR_STYLES.INFO_TABLE_WIDTH }}>
           <StudentInfoTable />
           <BrandingSection />
