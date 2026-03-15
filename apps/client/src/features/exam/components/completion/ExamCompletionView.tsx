@@ -25,7 +25,7 @@ export const ExamCompletionView = ({ examResultData, onViewResults }: ExamComple
 
   return (
     <div className="bg-gs4 flex min-h-screen w-full flex-col gap-y-[100px] px-[26.04px] py-[25px]">
-      <ExamHeader />
+      <ExamHeader shouldConfirmExit={false} />
       <div className="flex flex-col items-center gap-y-12">
         <motion.div
           ref={omrCardRef}

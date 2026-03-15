@@ -1,19 +1,32 @@
 import { useNavigate } from "react-router-dom";
 
+import { Button } from "@/shared/components/button/Button";
 import { ExitLine } from "@/shared/icons";
 
-export const ExamHeader = () => {
+import { ExamExitConfirmDialog } from "./ExamExitConfirmDialog";
+
+interface ExamHeaderProps {
+  shouldConfirmExit?: boolean;
+}
+
+export const ExamHeader = ({ shouldConfirmExit = true }: Readonly<ExamHeaderProps>) => {
   const navigate = useNavigate();
+  const handleExit = () => navigate("/");
 
   return (
     <header className="ml-auto">
-      <button
-        className="bg-gs6 flex h-11 items-center justify-center gap-x-1.5 rounded-xl px-4 py-3"
-        onClick={() => navigate("/")}
-      >
-        <span className="text-gs1 text-[17px] font-bold">종료하기</span>
-        <ExitLine />
-      </button>
+      {shouldConfirmExit ? (
+        <ExamExitConfirmDialog onConfirmExit={handleExit} />
+      ) : (
+        <Button
+          label="종료하기"
+          variant="white"
+          size="compact"
+          className="gap-x-1.5"
+          iconOptions={{ icon: <ExitLine />, position: "right" }}
+          onClick={handleExit}
+        />
+      )}
     </header>
   );
 };
