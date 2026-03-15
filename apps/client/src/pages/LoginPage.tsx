@@ -1,5 +1,32 @@
+import { AuthLoginView } from "@/features/auth/components/view/AuthLoginView";
+import { LOGIN_KEYPAD_ITEMS } from "@/features/auth/constants/login";
+import { useLoginPage } from "@/features/auth/hooks/useLoginPage";
+
 const LoginPage = () => {
-  return <main className="flex min-h-screen items-center justify-center px-6 py-10">ad</main>;
+  const {
+    activeField,
+    phone,
+    password,
+    ctaLabel,
+    isCtaDisabled,
+    handleFieldSelect,
+    handleKeypadClick,
+    handleCtaClick,
+  } = useLoginPage();
+
+  return (
+    <AuthLoginView
+      phone={phone}
+      password={password}
+      activeField={activeField}
+      ctaLabel={ctaLabel}
+      isCtaDisabled={isCtaDisabled}
+      keypadItems={LOGIN_KEYPAD_ITEMS}
+      onFieldSelect={handleFieldSelect}
+      onKeypadClick={handleKeypadClick}
+      onSubmit={handleCtaClick}
+    />
+  );
 };
 
 export default LoginPage;

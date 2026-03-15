@@ -1,5 +1,20 @@
 @import "./styles/tailwind.css";
 
+@font-face {
+  font-family: "SB Aggro";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff")
+    format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer utilities {
+  .font-sb-aggro {
+    font-family: "SB Aggro", "Pretendard Variable", "Pretendard", "SUIT", system-ui, sans-serif;
+  }
+}
+
 @layer base {
   :root {
     color-scheme: light;

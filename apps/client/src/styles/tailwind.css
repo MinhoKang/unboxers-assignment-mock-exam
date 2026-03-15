@@ -70,3 +70,10 @@
   -webkit-background-clip: text;
   color: transparent;
 }
+
+@utility text-blue-grad {
+  background-image: linear-gradient(135deg, #364f8e 0%, #5784f1 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
