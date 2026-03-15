@@ -49,9 +49,10 @@ export const isValidChar = (char: string): boolean => {
 };
 
 /**
- *
- * @param choiceCount 선택지 수
- * @returns 버블 트랙 스타일
+ * 객관식 버블 행이 선택지 수에 맞춰 일정한 간격의 그리드가 되도록 CSS 값을 계산합니다.
+ * 각 열은 버블 지름을 그대로 사용하고, 열 사이 간격은 OMR 공통 spacing 상수를 따릅니다.
+ * @param choiceCount 한 문항에 렌더링할 선택지 개수
+ * @returns 버블 트랙 컨테이너에 바로 전달할 grid 스타일 객체
  */
 export const getObjectiveBubbleTrackStyle = (choiceCount: number) => ({
   gridTemplateColumns: `repeat(${choiceCount}, ${OMR_STYLES.BUBBLE_WIDTH}px)`,

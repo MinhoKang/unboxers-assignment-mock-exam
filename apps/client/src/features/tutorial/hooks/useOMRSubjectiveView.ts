@@ -68,6 +68,11 @@ export const useOMRSubjectiveView = ({
     }
   };
 
+  /**
+   * 튜토리얼의 완료 버튼 클릭을 다음 단계 전이와 포커스 해제 흐름으로 연결합니다.
+   * edit 단계에서는 중복 처리하지 않고, 4번 문항 완료 여부를 기록한 뒤 `onComplete`로 실제 입력 종료를 위임합니다.
+   * @returns void
+   */
   const handleClickCompleteButton = () => {
     if (currentStep === "edit") return;
     handleChangeStep("edit");
@@ -81,6 +86,10 @@ export const useOMRSubjectiveView = ({
     onComplete();
   };
 
+  /**
+   * 4번 문항 완료 후 실제 포커스가 빠져나간 순간을 별도 플래그로 기록합니다.
+   * 완료 클릭만으로는 마지막 단계 조건이 충족되지 않으므로, blur 이후 상태 전이를 분리해서 추적합니다.
+   */
   useEffect(() => {
     // 4번이 완료된 후 포커스가 해제되면 플래그 설정
     if (isQuestion4Completed && focusedField !== 4) {

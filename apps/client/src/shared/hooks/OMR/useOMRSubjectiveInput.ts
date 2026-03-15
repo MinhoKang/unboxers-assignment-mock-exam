@@ -49,6 +49,13 @@ export const useOMRSubjectiveInput = ({
     onFieldFocus?.(questionNumber);
   };
 
+  /**
+   * 직접 입력된 문자열을 OMR 규칙에 맞게 정제한 뒤 필드 상태와 외부 onChange를 동시에 갱신합니다.
+   * 숫자/기호 외 문자는 제거하고, 남은 값도 최대 길이까지만 유지합니다.
+   * @param questionNumber 값을 바꿀 주관식 문항 번호
+   * @param value 사용자가 입력한 원본 문자열
+   * @returns void
+   */
   const handleInputChange = (questionNumber: number, value: string) => {
     // 유효한 문자만 허용
     const filteredValue = value

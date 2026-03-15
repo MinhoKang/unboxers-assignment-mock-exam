@@ -16,6 +16,12 @@ export const useSubjectiveAction = () => {
     setFocusedField(questionNumber);
   };
 
+  /**
+   * 현재 포커스된 주관식 답안에 키패드 입력을 반영합니다.
+   * 포커스가 없으면 무시하고, backspace는 마지막 글자를 제거하며 그 외 입력은 허용 문자와 최대 길이 조건을 통과해야만 추가합니다.
+   * @param value 키패드에서 들어온 문자 또는 backspace
+   * @returns void
+   */
   const handleKeypadInput = (value: string) => {
     if (!focusedField) return;
 

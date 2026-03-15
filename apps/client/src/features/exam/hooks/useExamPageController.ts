@@ -19,6 +19,13 @@ const TOAST_IDS = {
   submitted: "exam-submitted",
 } as const;
 
+/**
+ * 제출 직전에 학년/학번 누락 조합을 사용자용 안내 문구로 변환합니다.
+ * 둘 다 비었을 때를 가장 우선으로 처리하고, 누락이 없으면 null을 반환해 추가 토스트를 생략합니다.
+ * @param isGradeMissing 학년 누락 여부
+ * @param isStudentNumberMissing 학번 누락 여부
+ * @returns 노출할 제출 안내 문구, 모두 입력됐으면 null
+ */
 const getMissingIdentitySubmitMessage = ({
   isGradeMissing,
   isStudentNumberMissing,
@@ -165,6 +172,11 @@ export const useExamPageController = () => {
     return true;
   };
 
+  /**
+   * 현재 시험 상태에 맞는 답안 수정 차단 토스트를 선택합니다.
+   * 이미 제출된 경우 중복 제출 안내를 우선하고, 종료 상태에서는 신원 정보 누락 안내가 있으면 일반 잠금 문구보다 먼저 노출합니다.
+   * @returns void
+   */
   const showAnswerLockToast = () => {
     if (hasSubmittedSuccessfully) {
       showSubmittedToast();
@@ -239,6 +251,11 @@ export const useExamPageController = () => {
     await submitExam();
   });
 
+  /**
+   * 제출 버튼 경로에서 종료 상태의 신원 정보 누락을 먼저 차단한 뒤 실제 제출을 위임합니다.
+   * 자동 제출과 수동 제출이 같은 validation 규칙을 따르도록 맞추는 가드입니다.
+   * @returns 제출이 실제로 진행되어 성공했는지 여부
+   */
   const handleSubmit = async () => {
     if (examSession.status === "finished" && showMissingIdentitySubmitToast()) {
       return false;
