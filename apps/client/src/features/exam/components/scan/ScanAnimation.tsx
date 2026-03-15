@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { Button } from "@/shared/components/button/Button";
 import { OMRCard } from "@/shared/components/OMR/OMRCard";
 
+import { SCANNER_VERTICAL_BLEED_PX } from "../../constants/scanner";
 import { useScanAnimation } from "../../hooks/useScanAnimation";
 import type { TExamResultScreenData } from "../../types/examResultTypes";
 import { Scanner } from "./Scanner";
@@ -19,13 +20,7 @@ export const ScanAnimation = ({
   scanDurationMs,
 }: ScanAnimationProps) => {
   const { submittedExamData } = examResultData;
-  const {
-    overlayRef,
-    scanDurationSeconds,
-    scannerTimeline,
-    scannerVerticalBleedPx,
-    scannerWidthPx,
-  } = useScanAnimation({
+  const { overlayRef, scanDurationSeconds, scannerTimeline } = useScanAnimation({
     onScanComplete,
     scanDurationMs,
   });
@@ -36,8 +31,8 @@ export const ScanAnimation = ({
       <div
         className="relative"
         style={{
-          paddingTop: `${scannerVerticalBleedPx}px`,
-          paddingBottom: `${scannerVerticalBleedPx}px`,
+          paddingTop: `${SCANNER_VERTICAL_BLEED_PX}px`,
+          paddingBottom: `${SCANNER_VERTICAL_BLEED_PX}px`,
         }}
       >
         <motion.div
@@ -66,8 +61,6 @@ export const ScanAnimation = ({
           <Scanner
             scannerTimeline={scannerTimeline}
             scanDurationSeconds={scanDurationSeconds}
-            scannerWidthPx={scannerWidthPx}
-            scannerVerticalBleedPx={scannerVerticalBleedPx}
             overlayRef={overlayRef}
           />
         </motion.div>

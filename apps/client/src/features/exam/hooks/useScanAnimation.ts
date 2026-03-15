@@ -1,5 +1,12 @@
 import { useEffect, useEffectEvent, useLayoutEffect, useRef, useState } from "react";
 
+import {
+  DEFAULT_SCAN_DURATION_MS,
+  SCANNER_LEFT_INSET_PX,
+  SCANNER_RIGHT_INSET_PX,
+  SCANNER_WIDTH_PX,
+  TOTAL_TRAVEL_UNITS,
+} from "../constants/scanner";
 import type { TScannerTimeline } from "../types/scannerTypes";
 
 /**
@@ -9,13 +16,6 @@ interface UseScanAnimationParams {
   onScanComplete: () => void;
   scanDurationMs?: number;
 }
-
-const DEFAULT_SCAN_DURATION_MS = 5000;
-const SCANNER_WIDTH_PX = 50.48;
-const SCANNER_VERTICAL_BLEED_PX = 40;
-const SCANNER_LEFT_INSET_PX = 180;
-const SCANNER_RIGHT_INSET_PX = 10;
-const TOTAL_TRAVEL_UNITS = 2.5;
 
 /**
  * @description 스캔 화면에서 사용하는 타이머, 오버레이 폭 측정, 스캐너 이동 타임라인 계산을 한 곳에 모읍니다.
@@ -108,7 +108,5 @@ export const useScanAnimation = ({
     overlayRef,
     scanDurationSeconds,
     scannerTimeline: getScannerTimeline(),
-    scannerVerticalBleedPx: SCANNER_VERTICAL_BLEED_PX,
-    scannerWidthPx: SCANNER_WIDTH_PX,
   };
 };
