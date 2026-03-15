@@ -186,14 +186,16 @@ pnpm dev
 
 ## 웹앱 실행 방법 요청
 
-이 저장소를 포크한 뒤, 아래에 웹앱 실행 방법도 함께 작성해 주세요.
-
-예시 형식:
 
 - `## Web App Run`
-- `pnpm install`
-- `pnpm client`
-- 웹앱 실행 주소 기재
+```
+pnpm install
+pnpm client
+
+// test
+pnpm client:test
+```
+
 
 추가 참고 사항:
 

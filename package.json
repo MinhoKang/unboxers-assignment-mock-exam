@@ -4,10 +4,11 @@
   "packageManager": "pnpm@10.30.3",
   "scripts": {
     "dev": "pnpm --filter server dev",
-    "client": "pnpm --filter client dev",
     "db:generate": "pnpm --filter server db:generate",
     "db:push": "pnpm --filter server db:push",
     "db:seed": "pnpm --filter server db:seed",
+    "client": "pnpm --filter client dev",
+    "client:test": "pnpm --filter client test",
     "prepare": "husky"
   },
   "lint-staged": {
