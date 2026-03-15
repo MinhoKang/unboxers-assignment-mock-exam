@@ -1,6 +1,13 @@
-import { useEffect, useEffectEvent, useRef } from "react";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
+import type { TGradeValue } from "@/shared/types/omrsTypes";
+
+import type {
+  TExamCompletionStatus,
+  TExamResultScreenData,
+  TSubmittedExamData,
+} from "../types/examResultTypes";
 import { useExamForm } from "./useExamForm";
 import { useExamSession } from "./useExamSession";
 
@@ -18,6 +25,11 @@ const TOAST_IDS = {
 export const useExamPageController = () => {
   const examSession = useExamSession();
   const previousStatusRef = useRef(examSession.status);
+
+  // 시험 완료 후 화면 상태 관리
+  const [completionStatus, setCompletionStatus] = useState<TExamCompletionStatus>(null);
+  const [examResultData, setExamResultData] = useState<TExamResultScreenData | null>(null);
+
   const examForm = useExamForm();
 
   const {
@@ -33,6 +45,57 @@ export const useExamPageController = () => {
     handleKeypadInput,
     handleComplete,
   } = examForm;
+
+  /**
+   * @description 시험 제출 성공 이벤트를 처리합니다.
+   */
+  useEffect(() => {
+    const handleExamSubmitSuccess = (event: CustomEvent) => {
+      const { resultData } = event.detail;
+
+      const submittedData: TSubmittedExamData = {
+        examTitle: examForm.examTitle,
+        subject: examForm.subject,
+        studentName: examForm.studentName,
+        schoolName: examForm.schoolName,
+        seatNumber: examForm.seatNumber,
+        supervisorName: examForm.supervisorName,
+        grade: examForm.grade as TGradeValue,
+        studentNumber: examForm.studentNumber,
+        objectiveAnswers: examForm.objectiveAnswers,
+        subjectiveAnswers: examForm.subjectiveAnswers,
+        objectiveQuestionCount: examForm.objectiveQuestionCount,
+        subjectiveQuestionCount: examForm.subjectiveQuestionCount,
+      };
+
+      const examResultScreenData: TExamResultScreenData = {
+        submittedExamData: submittedData,
+        resultData: resultData,
+      };
+
+      // 결과 데이터를 localStorage에 저장 (새로고침 대응)
+      try {
+        localStorage.setItem("examResultData", JSON.stringify(examResultScreenData));
+      } catch (error) {
+        console.error("결과 데이터 저장 실패:", error);
+      }
+
+      setExamResultData(examResultScreenData);
+      setCompletionStatus("completed");
+    };
+
+    globalThis.window.addEventListener(
+      "examSubmitSuccess",
+      handleExamSubmitSuccess as EventListener,
+    );
+
+    return () => {
+      globalThis.window.removeEventListener(
+        "examSubmitSuccess",
+        handleExamSubmitSuccess as EventListener,
+      );
+    };
+  }, [examForm]);
 
   /**
    * @description 학년/번호는 대기 시간에는 막고, 제출 완료 후에도 다시 수정하지 못하게 합니다.
@@ -84,6 +147,20 @@ export const useExamPageController = () => {
         { id: TOAST_IDS.finished },
       );
     }
+  };
+
+  /**
+   * @description "결과 보기" 버튼 클릭 시 스캔 애니메이션으로 전환합니다.
+   */
+  const handleViewResults = () => {
+    setCompletionStatus("scanning");
+  };
+
+  /**
+   * @description 스캔 애니메이션 완료 시 결과 화면으로 전환합니다.
+   */
+  const handleScanComplete = () => {
+    setCompletionStatus("results");
   };
 
   /**
@@ -167,6 +244,13 @@ export const useExamPageController = () => {
    * @description 화면 컴포넌트가 직접 로직을 몰라도 되도록, 렌더링에 필요한 props만 섹션별로 반환합니다.
    */
   return {
+    // 시험 완료 상태 관련
+    completionStatus,
+    examResultData,
+    onViewResults: handleViewResults,
+    onScanComplete: handleScanComplete,
+
+    // 기존 props들
     examCardProps: {
       examTitle: examForm.examTitle,
       subject: examForm.subject,

@@ -43,7 +43,7 @@ export const postExamSchema = z.object({
   name: z.string().min(2),
   school: z.string().min(1),
   grade: z.number().int().min(1, "학년을 선택해주세요."),
-  studentNumber: z.number().int().min(1, "번호를 입력해주세요."),
+  studentNumber: z.number().int().min(0, "번호를 입력해주세요."),
   seatNumber: z.number().int().min(1, "자리를 선택해주세요."),
   answers: z.array(
     z.discriminatedUnion("answerType", [objectiveAnswerSchema, subjectiveAnswerRequestSchema]),

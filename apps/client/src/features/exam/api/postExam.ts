@@ -37,10 +37,6 @@ export const usePostExam = () => {
 
       return payload;
     },
-    onSuccess: (data) => {
-      // TODO: 성공 후 결과 화면으로 이동
-      console.log(data);
-    },
     onError: (error) => {
       const message = error instanceof Error ? error.message : "답안 제출에 실패했습니다.";
 

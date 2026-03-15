@@ -246,9 +246,21 @@ export const useExamForm = () => {
     }
 
     try {
-      await submitExamMutation(payloadResult.data);
+      const result = await submitExamMutation(payloadResult.data);
       clearSubjectiveFocus();
       setHasSubmittedSuccessfully(true);
+
+      // Custom event로 제출 성공 알림
+      if (result?.data) {
+        globalThis.window.dispatchEvent(
+          new CustomEvent("examSubmitSuccess", {
+            detail: {
+              resultData: result.data,
+            },
+          }),
+        );
+      }
+
       return true;
     } catch {
       return false;
