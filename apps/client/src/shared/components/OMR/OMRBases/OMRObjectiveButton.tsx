@@ -4,15 +4,27 @@ import { cn } from "@/shared/helpers/cn";
 interface OMRObjectiveButtonProps {
   number: number;
   isSelected: boolean;
+  isDisabled?: boolean;
   onSelect: () => void;
 }
 
-export const OMRObjectiveButton = ({ number, isSelected, onSelect }: OMRObjectiveButtonProps) => {
+export const OMRObjectiveButton = ({
+  number,
+  isSelected,
+  isDisabled = false,
+  onSelect,
+}: OMRObjectiveButtonProps) => {
   return (
     <button
-      className={cn(isSelected ? "bg-gs1" : "bg-grayscale-500-100", "h-11 rounded-[20px]")}
+      type="button"
+      className={cn(
+        isSelected ? "bg-gs1" : "bg-grayscale-500-100",
+        isDisabled && "cursor-not-allowed opacity-60",
+        "h-11 rounded-[20px] transition-opacity",
+      )}
       style={{ width: OMR_STYLES.BUBBLE_WIDTH }}
       onClick={onSelect}
+      aria-disabled={isDisabled}
     >
       <p className="text-gs6 text-xs font-bold">{number}</p>
     </button>

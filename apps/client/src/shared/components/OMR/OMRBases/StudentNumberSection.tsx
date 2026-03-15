@@ -8,6 +8,7 @@ import { OMRObjectiveButton } from "./OMRObjectiveButton";
 interface StudentNumberSectionProps {
   grade?: TGradeValue | null;
   studentNumber?: TStudentNumberValue;
+  isReadOnly?: boolean;
   onGradeChange?: (value: TGradeValue) => void;
   onNumberChange?: (digit: TDigitKey, value: number) => void;
   className?: string;
@@ -16,6 +17,7 @@ interface StudentNumberSectionProps {
 export const StudentNumberSection = ({
   grade = null,
   studentNumber = { tens: null, ones: null },
+  isReadOnly = false,
   onGradeChange,
   onNumberChange,
   className,
@@ -87,6 +89,7 @@ export const StudentNumberSection = ({
                     <OMRObjectiveButton
                       number={value}
                       isSelected={grade === value}
+                      isDisabled={isReadOnly}
                       onSelect={() => onGradeChange?.(value)}
                     />
                   ) : null}
@@ -110,6 +113,7 @@ export const StudentNumberSection = ({
                   <OMRObjectiveButton
                     number={value}
                     isSelected={studentNumber.tens === value}
+                    isDisabled={isReadOnly}
                     onSelect={() => onNumberChange?.("tens", value)}
                   />
                 </div>
@@ -129,6 +133,7 @@ export const StudentNumberSection = ({
                   <OMRObjectiveButton
                     number={value}
                     isSelected={studentNumber.ones === value}
+                    isDisabled={isReadOnly}
                     onSelect={() => onNumberChange?.("ones", value)}
                   />
                 </div>

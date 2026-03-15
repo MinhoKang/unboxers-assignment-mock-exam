@@ -11,6 +11,8 @@ interface OMRObjectiveInputsProps {
   totalQuestions: number;
   choiceCount?: number;
   answers?: TObjectiveAnswer;
+  isReadOnly?: boolean;
+  onBlockedInteraction?: () => void;
   onSelect?: (question: number, choice: number) => void;
   variant?: TOmrVariant;
   className?: string;
@@ -20,6 +22,8 @@ export const OMRObjectiveInputs = ({
   totalQuestions,
   choiceCount = 5,
   answers = {},
+  isReadOnly = false,
+  onBlockedInteraction,
   onSelect,
   variant = "default",
   className,
@@ -35,6 +39,11 @@ export const OMRObjectiveInputs = ({
    * @returns void
    */
   const handleSelect = (question: number, choice: number) => {
+    if (isReadOnly) {
+      onBlockedInteraction?.();
+      return;
+    }
+
     onSelect?.(question, choice);
   };
 
@@ -70,6 +79,7 @@ export const OMRObjectiveInputs = ({
                     questionNumber={questionNumber}
                     choiceCount={choiceCount}
                     selectedChoices={answers[questionNumber] ?? []}
+                    isReadOnly={isReadOnly}
                     onSelect={handleSelect}
                     variant="examCard"
                   />
@@ -114,6 +124,7 @@ export const OMRObjectiveInputs = ({
                   questionNumber={questionNumber}
                   choiceCount={choiceCount}
                   selectedChoices={answers[questionNumber] ?? []}
+                  isReadOnly={isReadOnly}
                   onSelect={handleSelect}
                   variant="default"
                 />

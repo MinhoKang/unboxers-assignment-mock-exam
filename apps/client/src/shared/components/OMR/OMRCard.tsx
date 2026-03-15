@@ -24,13 +24,18 @@ interface OMRCardProps {
   supervisorName: string;
   grade: TGradeValue | null;
   studentNumber: TStudentNumberValue;
+  isStudentNumberReadOnly?: boolean;
   onGradeChange: (value: TGradeValue) => void;
   onNumberChange: (digit: TDigitKey, value: number) => void;
   objectiveQuestionCount: number;
   subjectiveQuestionCount: number;
   objectiveAnswers: TObjectiveAnswer;
+  isObjectiveReadOnly?: boolean;
+  onObjectiveBlockedInteraction?: () => void;
   onObjectiveSelect: (question: number, choice: number) => void;
   subjectiveAnswers: TSubjectiveAnswer;
+  isSubjectiveReadOnly?: boolean;
+  onSubjectiveBlockedInteraction?: () => void;
   focusedField: number | null;
   fieldRefs: { current: TFieldRefs };
   onSubjectiveChange: (questionNumber: number, value: string) => void;
@@ -46,13 +51,18 @@ export const OMRCard = ({
   supervisorName,
   grade,
   studentNumber,
+  isStudentNumberReadOnly = false,
   onGradeChange,
   onNumberChange,
   objectiveQuestionCount,
   subjectiveQuestionCount,
   objectiveAnswers,
+  isObjectiveReadOnly = false,
+  onObjectiveBlockedInteraction,
   onObjectiveSelect,
   subjectiveAnswers,
+  isSubjectiveReadOnly = false,
+  onSubjectiveBlockedInteraction,
   focusedField,
   fieldRefs,
   onSubjectiveChange,
@@ -76,6 +86,7 @@ export const OMRCard = ({
         <StudentNumberSection
           grade={grade}
           studentNumber={studentNumber}
+          isReadOnly={isStudentNumberReadOnly}
           onGradeChange={onGradeChange}
           onNumberChange={onNumberChange}
         />
@@ -84,6 +95,8 @@ export const OMRCard = ({
           totalQuestions={objectiveQuestionCount}
           choiceCount={5}
           answers={objectiveAnswers}
+          isReadOnly={isObjectiveReadOnly}
+          onBlockedInteraction={onObjectiveBlockedInteraction}
           onSelect={onObjectiveSelect}
           variant="examCard"
         />
@@ -91,11 +104,14 @@ export const OMRCard = ({
         <OMRSubjectiveInputs
           questionCount={subjectiveQuestionCount}
           values={subjectiveAnswers}
+          isReadOnly={isSubjectiveReadOnly}
+          onBlockedInteraction={onSubjectiveBlockedInteraction}
           onChange={onSubjectiveChange}
           onFieldFocus={onSubjectiveFieldFocus}
           focusedField={focusedField}
           fieldRefs={fieldRefs}
           variant="examCard"
+          className={isSubjectiveReadOnly ? "opacity-60" : undefined}
         />
       </div>
     </OMRContainer>

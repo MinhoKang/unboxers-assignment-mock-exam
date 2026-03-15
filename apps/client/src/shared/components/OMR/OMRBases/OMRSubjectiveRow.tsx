@@ -7,6 +7,8 @@ interface OMRSubjectiveRowProps {
   value: string;
   placeholder: string;
   isFocused: boolean;
+  readOnly?: boolean;
+  onReadOnlyInteraction?: () => void;
   maxLength: number;
   variant?: TOmrVariant;
   onFocus: () => void;
@@ -19,6 +21,8 @@ export const OMRSubjectiveRow = ({
   value,
   placeholder,
   isFocused,
+  readOnly = false,
+  onReadOnlyInteraction,
   maxLength,
   variant = "default",
   onFocus,
@@ -57,11 +61,28 @@ export const OMRSubjectiveRow = ({
           type="text"
           value={value}
           placeholder={placeholder}
+          readOnly={readOnly}
           className={cn(
             "placeholder:text-grayscale-400-100 block h-full w-full bg-transparent py-[13.83px] text-center text-[17px] font-semibold outline-none placeholder:text-[17px]",
+            readOnly && "cursor-not-allowed",
           )}
-          onFocus={onFocus}
-          onChange={(e) => onChange(e.target.value)}
+          onFocus={(event) => {
+            if (readOnly) {
+              onReadOnlyInteraction?.();
+              event.target.blur();
+              return;
+            }
+
+            onFocus();
+          }}
+          onChange={(event) => {
+            if (readOnly) {
+              onReadOnlyInteraction?.();
+              return;
+            }
+
+            onChange(event.target.value);
+          }}
           maxLength={maxLength}
         />
       </div>

@@ -8,6 +8,8 @@ interface NumericKeypadProps {
   onComplete: () => void;
   focusedField?: number | null;
   currentValue?: string;
+  isReadOnly?: boolean;
+  onBlockedInteraction?: () => void;
 }
 
 interface KeypadButtonProps {
@@ -50,10 +52,17 @@ export const NumericKeypad = ({
   onComplete,
   focusedField,
   currentValue,
+  isReadOnly = false,
+  onBlockedInteraction,
 }: NumericKeypadProps) => {
   const isCompleteDisabled = !focusedField || !currentValue?.length;
 
   const handleButtonClick = (value: string) => {
+    if (isReadOnly) {
+      onBlockedInteraction?.();
+      return;
+    }
+
     if (value === "complete") {
       onComplete();
     } else if (value === "backspace") {
@@ -64,7 +73,10 @@ export const NumericKeypad = ({
   };
 
   return (
-    <div className="grid grid-cols-3 gap-3" style={{ width: OMR_STYLES.NUMERIC_KEYPAD_WIDTH }}>
+    <div
+      className={cn("grid grid-cols-3 gap-3", isReadOnly && "opacity-60")}
+      style={{ width: OMR_STYLES.NUMERIC_KEYPAD_WIDTH }}
+    >
       <div
         className={cn(
           "shadow-floating-xs col-span-3 flex h-13 items-center justify-center rounded-xl bg-white px-4 text-center",
@@ -100,7 +112,7 @@ export const NumericKeypad = ({
                 !isCompleteDisabled &&
                 "bg-blue-grad text-gs6 enabled:hover:opacity-90 enabled:active:opacity-80",
             )}
-            disabled={isCompleteButton && isCompleteDisabled}
+            disabled={isCompleteButton && !isReadOnly && isCompleteDisabled}
             ariaLabel={item.ariaLabel}
           >
             {item.icon || item.label}

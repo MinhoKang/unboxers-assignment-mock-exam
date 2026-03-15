@@ -8,6 +8,7 @@ interface QuestionRowProps {
   questionNumber: number;
   choiceCount: number;
   selectedChoices: number[];
+  isReadOnly?: boolean;
   onSelect: (question: number, choice: number) => void;
   variant?: TOmrVariant;
 }
@@ -16,6 +17,7 @@ export const QuestionRow = ({
   questionNumber,
   choiceCount,
   selectedChoices,
+  isReadOnly = false,
   onSelect,
   variant = "default",
 }: QuestionRowProps) => {
@@ -58,6 +60,7 @@ export const QuestionRow = ({
                 key={choice}
                 number={choice}
                 isSelected={selectedChoices.includes(choice)}
+                isDisabled={isReadOnly}
                 onSelect={() => onSelect(questionNumber, choice)}
               />
             ))}
@@ -70,6 +73,7 @@ export const QuestionRow = ({
               key={choice}
               number={choice}
               isSelected={selectedChoices.includes(choice)}
+              isDisabled={isReadOnly}
               onSelect={() => onSelect(questionNumber, choice)}
             />
           ))}

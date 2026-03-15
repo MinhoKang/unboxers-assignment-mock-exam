@@ -9,6 +9,8 @@ import { OMRSubjectiveRow } from "./OMRSubjectiveRow";
 interface OMRSubjectiveInputProps {
   questionCount: number;
   values?: TSubjectiveAnswer;
+  isReadOnly?: boolean;
+  onBlockedInteraction?: () => void;
   onChange?: (questionNumber: number, value: string) => void;
   onFieldFocus?: (questionNumber: number) => void;
   focusedField?: number | null;
@@ -22,6 +24,8 @@ interface OMRSubjectiveInputProps {
 export const OMRSubjectiveInputs = ({
   questionCount,
   values = {},
+  isReadOnly = false,
+  onBlockedInteraction,
   onChange,
   onFieldFocus,
   focusedField,
@@ -71,6 +75,8 @@ export const OMRSubjectiveInputs = ({
                 value={fieldValues[num] || ""}
                 placeholder={getPlaceholder(num)}
                 isFocused={focusedField === num}
+                readOnly={isReadOnly}
+                onReadOnlyInteraction={onBlockedInteraction}
                 maxLength={maxLength}
                 variant="examCard"
                 onFocus={() => handleInputFocus(num)}
@@ -106,6 +112,8 @@ export const OMRSubjectiveInputs = ({
             value={fieldValues[num] || ""}
             placeholder={getPlaceholder(num)}
             isFocused={focusedField === num}
+            readOnly={isReadOnly}
+            onReadOnlyInteraction={onBlockedInteraction}
             maxLength={maxLength}
             variant="default"
             onFocus={() => handleInputFocus(num)}
