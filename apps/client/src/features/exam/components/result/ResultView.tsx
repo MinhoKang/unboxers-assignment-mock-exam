@@ -59,7 +59,7 @@ export const ResultView = ({ examResultData }: ResultViewProps) => {
         </motion.div>
       </div>
 
-      <div className="w-full lg:grid lg:grid-cols-[minmax(0,1fr)_460px] lg:items-start lg:gap-12">
+      <div className="w-full lg:grid lg:grid-cols-[minmax(0,1fr)_460px] lg:items-start">
         {/* 왼쪽: 제출한 OMR 카드 */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
@@ -77,7 +77,7 @@ export const ResultView = ({ examResultData }: ResultViewProps) => {
               dragMomentum={false}
               style={{ touchAction: "pan-y", x: xPosition }}
               className={cn(
-                "w-max select-none",
+                "mx-auto w-max select-none",
                 isDraggable && "cursor-grab",
                 isDraggingOmr && "cursor-grabbing",
               )}
