@@ -50,6 +50,54 @@ export const openApiDocument = {
         },
         required: ["message", "data"]
       },
+      ObjectiveSubmitAnswer: {
+        type: "object",
+        example: {
+          answerType: "objective",
+          number: 1,
+          answer: 3
+        },
+        properties: {
+          answerType: {
+            type: "string",
+            enum: ["objective"]
+          },
+          number: {
+            type: "integer"
+          },
+          answer: {
+            type: "integer"
+          }
+        },
+        required: ["answerType", "number", "answer"]
+      },
+      SubjectiveSubmitAnswer: {
+        type: "object",
+        example: {
+          answerType: "subjective",
+          number: 1,
+          answer: "2/5"
+        },
+        properties: {
+          answerType: {
+            type: "string",
+            enum: ["subjective"]
+          },
+          number: {
+            type: "integer"
+          },
+          answer: {
+            oneOf: [
+              { type: "number" },
+              {
+                type: "string",
+                examples: ["104", "0.4", "2/5", "-2/5"]
+              }
+            ]
+          }
+        },
+        required: ["answerType", "number", "answer"]
+      },
       SubmitRequest: {
         type: "object",
         properties: {
@@ -65,27 +113,22 @@ export const openApiDocument = {
                 answerType: "objective",
                 number: 1,
                 answer: 3
+              },
+              {
+                answerType: "subjective",
+                number: 1,
+                answer: "2/5"
               }
             ],
             items: {
-              type: "object",
-              example: {
-                answerType: "objective",
-                number: 1,
-                answer: 3
-              },
-              properties: {
-                answerType: {
-                  $ref: "#/components/schemas/AnswerType"
+              oneOf: [
+                {
+                  $ref: "#/components/schemas/ObjectiveSubmitAnswer"
                 },
-                number: {
-                  type: "integer"
-                },
-                answer: {
-                  type: "integer"
+                {
+                  $ref: "#/components/schemas/SubjectiveSubmitAnswer"
                 }
-              },
-              required: ["answerType", "number", "answer"]
+              ]
             }
           }
         },

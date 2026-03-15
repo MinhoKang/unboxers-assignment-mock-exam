@@ -1,7 +1,7 @@
 import { OMR_STYLES } from "@/shared/constants/omrStyles";
 import { cn } from "@/shared/helpers/cn";
-import { getChoicesColumns, getColumnCount } from "@/shared/helpers/omrs";
-import type { TOmrVariant } from "@/shared/types/omrsTypes";
+import { getChoicesColumns, getColumnCount, getObjectiveSectionWidth } from "@/shared/helpers/omrs";
+import type { TObjectiveAnswer, TOmrVariant } from "@/shared/types/omrsTypes";
 
 import { OMRInputsTitle } from "./OMRInputsTitle";
 import { OMRObjectiveReaderMarks } from "./OMRObjectiveReaderMarks";
@@ -10,7 +10,7 @@ import { QuestionRow } from "./OMRQuestionRow";
 interface OMRObjectiveInputsProps {
   totalQuestions: number;
   choiceCount?: number;
-  answers?: Record<number, number[]>;
+  answers?: TObjectiveAnswer;
   onSelect?: (question: number, choice: number) => void;
   variant?: TOmrVariant;
   className?: string;
@@ -26,6 +26,7 @@ export const OMRObjectiveInputs = ({
 }: OMRObjectiveInputsProps) => {
   const columnCount = getColumnCount(totalQuestions);
   const columns = getChoicesColumns(columnCount, totalQuestions);
+  const objectiveSectionWidth = getObjectiveSectionWidth(columnCount);
 
   /**
    *
@@ -41,7 +42,7 @@ export const OMRObjectiveInputs = ({
     return (
       <div
         className={cn("flex shrink-0 flex-col", className)}
-        style={{ width: OMR_STYLES.OBJECTIVE_SECTION_WIDTH }}
+        style={{ width: objectiveSectionWidth }}
       >
         <OMRInputsTitle title="객관식답안" />
 
@@ -74,6 +75,15 @@ export const OMRObjectiveInputs = ({
                   />
                 </div>
               ))}
+              {questions.length < OMR_STYLES.BODY_ROW_COUNT && (
+                <div className="flex flex-1">
+                  <div
+                    className="bg-inbrain-lightblue/15 border-inbrain-lightblue shrink-0 border-t-[1.5px] border-r-[1.5px]"
+                    style={{ width: OMR_STYLES.LABEL_WIDTH }}
+                  />
+                  <div className="border-inbrain-lightblue flex-1 border-t-[1.5px]" />
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -109,6 +119,15 @@ export const OMRObjectiveInputs = ({
                 />
               </div>
             ))}
+            {questions.length < OMR_STYLES.BODY_ROW_COUNT && (
+              <div className="flex flex-1">
+                <div
+                  className="bg-inbrain-lightblue/20 border-x-inbrain-lightblue shrink-0 border-x-[1.5px] border-t-[1.5px]"
+                  style={{ width: OMR_STYLES.LABEL_WIDTH }}
+                />
+                <div className="border-inbrain-lightblue flex-1 border-t-[1.5px]" />
+              </div>
+            )}
           </div>
         ))}
       </div>

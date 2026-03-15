@@ -16,3 +16,8 @@ export type TStudentNumberValue = {
 export type TDigitKey = keyof TStudentNumberValue;
 
 export type TOmrVariant = "default" | "examCard";
+
+export type TObjectiveAnswer = Record<number, number[]>;
+export type TSubjectiveAnswer = Record<number, string>;
+
+export type TFieldRefs = Record<number, HTMLInputElement | null>;

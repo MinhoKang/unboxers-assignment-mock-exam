@@ -1,7 +1,9 @@
 import { useState } from "react";
 
+import type { TObjectiveAnswer } from "@/shared/types/omrsTypes";
+
 export const useObjectiveAction = () => {
-  const [objectiveAnswers, setObjectiveAnswers] = useState<Record<number, number[]>>({});
+  const [objectiveAnswers, setObjectiveAnswers] = useState<TObjectiveAnswer>({});
 
   const handleSelectObjective = (question: number, choice: number) => {
     setObjectiveAnswers((prev) => {

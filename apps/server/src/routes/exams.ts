@@ -6,6 +6,70 @@ import { GRADE_RESULT } from "../lib/constants";
 import { prisma } from "../lib/prisma";
 import { errorResponse, successResponse } from "../lib/response";
 
+const SUBJECTIVE_NUMBER_PATTERN = /^-?(?:\d+\.?\d*|\.\d+)$/;
+
+const parseSubjectiveAnswer = (value: string | number) => {
+  if (typeof value === "number") {
+    return Number.isFinite(value) ? value : null;
+  }
+
+  const trimmedValue = value.trim();
+
+  if (!trimmedValue) {
+    return null;
+  }
+
+  const fractionParts = trimmedValue.split("/");
+
+  if (fractionParts.length === 1) {
+    if (!SUBJECTIVE_NUMBER_PATTERN.test(trimmedValue)) {
+      return null;
+    }
+
+    const parsedValue = Number(trimmedValue);
+    return Number.isFinite(parsedValue) ? parsedValue : null;
+  }
+
+  if (fractionParts.length !== 2) {
+    return null;
+  }
+
+  const [rawNumerator, rawDenominator] = fractionParts;
+
+  if (
+    !SUBJECTIVE_NUMBER_PATTERN.test(rawNumerator) ||
+    !SUBJECTIVE_NUMBER_PATTERN.test(rawDenominator)
+  ) {
+    return null;
+  }
+
+  const numerator = Number(rawNumerator);
+  const denominator = Number(rawDenominator);
+
+  if (!Number.isFinite(numerator) || !Number.isFinite(denominator) || denominator === 0) {
+    return null;
+  }
+
+  return numerator / denominator;
+};
+
+const objectiveAnswerSchema = z.object({
+  answerType: z.literal(AnswerType.objective),
+  number: z.number().int().positive(),
+  answer: z.number().int()
+});
+
+const subjectiveAnswerSchema = z.object({
+  answerType: z.literal(AnswerType.subjective),
+  number: z.number().int().positive(),
+  answer: z
+    .union([z.number(), z.string().trim().min(1)])
+    .refine((value) => parseSubjectiveAnswer(value) !== null, {
+      message: "Subjective answer must be numeric or coercible to a number"
+    })
+    .transform((value) => parseSubjectiveAnswer(value) as number)
+});
+
 const gradeAnswersSchema = z.object({
   name: z.string().trim().min(1),
   school: z.string().trim().min(1),
@@ -13,13 +77,7 @@ const gradeAnswersSchema = z.object({
   studentNumber: z.number().int(),
   seatNumber: z.number().int(),
   answers: z
-    .array(
-      z.object({
-        answerType: z.nativeEnum(AnswerType),
-        number: z.number().int().positive(),
-        answer: z.number().int()
-      })
-    )
+    .array(z.discriminatedUnion("answerType", [objectiveAnswerSchema, subjectiveAnswerSchema]))
     .min(1)
 });
 

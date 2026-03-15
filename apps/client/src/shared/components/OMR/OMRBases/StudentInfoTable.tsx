@@ -1,14 +1,38 @@
-import { STUDENT_INFO_ROWS } from "@/shared/constants/omrs";
 import { OMR_STYLES } from "@/shared/constants/omrStyles";
 import { cn } from "@/shared/helpers/cn";
 
-export const StudentInfoTable = () => {
+interface StudentInfoTableProps {
+  examTitle: string;
+  subject: string;
+  studentName: string;
+  schoolName: string;
+  seatNumber: number;
+  supervisorName: string;
+}
+
+export const StudentInfoTable = ({
+  examTitle,
+  subject,
+  studentName,
+  schoolName,
+  seatNumber,
+  supervisorName,
+}: StudentInfoTableProps) => {
+  const studentInfoRows = [
+    { label: "시험", value: examTitle },
+    { label: "과목", value: subject },
+    { label: "성명", value: studentName },
+    { label: "학교", value: schoolName },
+    { label: "좌석", value: `${seatNumber}번` },
+    { label: "감독", value: supervisorName },
+  ];
+
   return (
     <div
       className="border-inbrain-lightblue bg-omr-bg w-full shrink-0 overflow-hidden border-l-[1.5px]"
       style={{ width: OMR_STYLES.INFO_TABLE_WIDTH }}
     >
-      {STUDENT_INFO_ROWS.map((row, index) => (
+      {studentInfoRows.map((row, index) => (
         <div
           key={row.label}
           className={cn(

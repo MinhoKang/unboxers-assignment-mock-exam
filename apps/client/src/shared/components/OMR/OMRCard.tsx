@@ -1,5 +1,12 @@
 import { OMR_STYLES } from "@/shared/constants/omrStyles";
-import { useOMRCard } from "@/shared/hooks/OMR/useOMRCard";
+import type {
+  TDigitKey,
+  TFieldRefs,
+  TGradeValue,
+  TObjectiveAnswer,
+  TStudentNumberValue,
+  TSubjectiveAnswer,
+} from "@/shared/types/omrsTypes";
 
 import { BrandingSection } from "./OMRBases/BrandingSection";
 import { OMRContainer } from "./OMRBases/OMRContainer";
@@ -9,16 +16,40 @@ import { StudentInfoTable } from "./OMRBases/StudentInfoTable";
 import { StudentNumberSection } from "./OMRBases/StudentNumberSection";
 
 interface OMRCardProps {
-  objectiveAnswers: Record<number, number[]>;
+  examTitle: string;
+  subject: string;
+  studentName: string;
+  schoolName: string;
+  seatNumber: number;
+  supervisorName: string;
+  grade: TGradeValue | null;
+  studentNumber: TStudentNumberValue;
+  onGradeChange: (value: TGradeValue) => void;
+  onNumberChange: (digit: TDigitKey, value: number) => void;
+  objectiveQuestionCount: number;
+  subjectiveQuestionCount: number;
+  objectiveAnswers: TObjectiveAnswer;
   onObjectiveSelect: (question: number, choice: number) => void;
-  subjectiveAnswers: Record<number, string>;
+  subjectiveAnswers: TSubjectiveAnswer;
   focusedField: number | null;
-  fieldRefs: { current: Record<number, HTMLInputElement | null> };
+  fieldRefs: { current: TFieldRefs };
   onSubjectiveChange: (questionNumber: number, value: string) => void;
   onSubjectiveFieldFocus: (questionNumber: number) => void;
 }
 
 export const OMRCard = ({
+  examTitle,
+  subject,
+  studentName,
+  schoolName,
+  seatNumber,
+  supervisorName,
+  grade,
+  studentNumber,
+  onGradeChange,
+  onNumberChange,
+  objectiveQuestionCount,
+  subjectiveQuestionCount,
   objectiveAnswers,
   onObjectiveSelect,
   subjectiveAnswers,
@@ -27,25 +58,30 @@ export const OMRCard = ({
   onSubjectiveChange,
   onSubjectiveFieldFocus,
 }: OMRCardProps) => {
-  const { grade, studentNumber, handleGradeChange, handleNumberChange } = useOMRCard();
-
   return (
     <OMRContainer className="w-fit overflow-hidden rounded-3xl px-4 py-3 pb-[2px]">
       <div className="flex items-stretch overflow-x-auto">
         <div className="flex flex-col" style={{ width: OMR_STYLES.INFO_TABLE_WIDTH }}>
-          <StudentInfoTable />
+          <StudentInfoTable
+            examTitle={examTitle}
+            subject={subject}
+            studentName={studentName}
+            schoolName={schoolName}
+            seatNumber={seatNumber}
+            supervisorName={supervisorName}
+          />
           <BrandingSection />
         </div>
 
         <StudentNumberSection
           grade={grade}
           studentNumber={studentNumber}
-          onGradeChange={handleGradeChange}
-          onNumberChange={handleNumberChange}
+          onGradeChange={onGradeChange}
+          onNumberChange={onNumberChange}
         />
 
         <OMRObjectiveInputs
-          totalQuestions={30}
+          totalQuestions={objectiveQuestionCount}
           choiceCount={5}
           answers={objectiveAnswers}
           onSelect={onObjectiveSelect}
@@ -53,7 +89,7 @@ export const OMRCard = ({
         />
 
         <OMRSubjectiveInputs
-          questionCount={12}
+          questionCount={subjectiveQuestionCount}
           values={subjectiveAnswers}
           onChange={onSubjectiveChange}
           onFieldFocus={onSubjectiveFieldFocus}

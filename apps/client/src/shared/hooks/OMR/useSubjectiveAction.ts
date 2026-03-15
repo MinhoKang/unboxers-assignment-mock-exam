@@ -1,9 +1,10 @@
 import { useRef, useState } from "react";
 
 import { isValidChar } from "@/shared/helpers/omrs";
+import type { TSubjectiveAnswer } from "@/shared/types/omrsTypes";
 
 export const useSubjectiveAction = () => {
-  const [subjectiveAnswers, setSubjectiveAnswers] = useState<Record<number, string>>({});
+  const [subjectiveAnswers, setSubjectiveAnswers] = useState<TSubjectiveAnswer>({});
   const [focusedField, setFocusedField] = useState<number | null>(null);
   const fieldRefs = useRef<Record<number, HTMLInputElement | null>>({});
 

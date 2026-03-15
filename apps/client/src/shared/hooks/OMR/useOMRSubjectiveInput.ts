@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 
+import type { TSubjectiveAnswer } from "@/shared/types/omrsTypes";
+
 import { isValidChar } from "../../helpers/omrs";
 
 interface UseOMRSubjectiveInputProps {
   questionCount: number;
-  values: Record<number, string>;
+  values: TSubjectiveAnswer;
   onChange?: (questionNumber: number, value: string) => void;
   onFieldFocus?: (questionNumber: number) => void;
   maxLength: number;
@@ -21,7 +23,7 @@ export const useOMRSubjectiveInput = ({
   isTutorial = false,
   focusedField,
 }: UseOMRSubjectiveInputProps) => {
-  const [fieldValues, setFieldValues] = useState<Record<number, string>>(values);
+  const [fieldValues, setFieldValues] = useState<TSubjectiveAnswer>(values);
 
   // questionCount에 따라 질문 번호 배열 생성
   const questionNumbers = Array.from({ length: questionCount }, (_, i) => i + 1);

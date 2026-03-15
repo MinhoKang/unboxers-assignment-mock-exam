@@ -1,11 +1,12 @@
 import { useState } from "react";
 
 import type { TTutorialDirection } from "@/features/tutorial/types/tutorialTypes";
+import type { TObjectiveAnswer } from "@/shared/types/omrsTypes";
 
 // 객관식 OMR 튜토리얼 단계
 export type TOObjectiveTutorialStep = "single" | "remove" | "multiple";
 
-const hasMultipleChoices = (answers: Record<number, number[]>) => {
+const hasMultipleChoices = (answers: TObjectiveAnswer) => {
   return Object.values(answers).some((choices) => choices.length >= 2);
 };
 
@@ -14,7 +15,7 @@ export const useOMRObjectiveView = ({
 }: {
   onStepChange: (direction: TTutorialDirection) => void;
 }) => {
-  const [answers, setAnswers] = useState<Record<number, number[]>>({});
+  const [answers, setAnswers] = useState<TObjectiveAnswer>({});
   const [currentStep, setCurrentStep] = useState<TOObjectiveTutorialStep>("single");
 
   const getIsClickableNextButton = () => {

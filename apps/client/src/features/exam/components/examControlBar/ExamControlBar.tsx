@@ -8,9 +8,19 @@ interface ExamControlBarProps {
   status: "waiting" | "examining";
   totalTime: number;
   remainingTime: number; // 초 단위
+  onSubmit?: () => void;
+  isSubmitting?: boolean;
+  isSubmitDisabled?: boolean;
 }
 
-export const ExamControlBar = ({ status, totalTime, remainingTime }: ExamControlBarProps) => {
+export const ExamControlBar = ({
+  status,
+  totalTime,
+  remainingTime,
+  onSubmit,
+  isSubmitting = false,
+  isSubmitDisabled = false,
+}: ExamControlBarProps) => {
   const isExamining = status === "examining";
 
   const timeDescription = isExamining ? "시험 종료까지 남은 시간" : "시험이 곧 시작됩니다...";
@@ -39,8 +49,18 @@ export const ExamControlBar = ({ status, totalTime, remainingTime }: ExamControl
       <div className="flex shrink-0 items-center justify-center gap-x-3">
         <HelpButton />
         {status === "examining" && (
-          <button className="bg-blue-grad text-gs6 h-15 w-50 rounded-2xl">
-            <span className="text-gs6 text-[17px] font-bold">답안 제출하기</span>
+          <button
+            type="button"
+            className={cn(
+              "bg-blue-grad text-gs6 h-15 w-50 rounded-2xl",
+              (isSubmitting || isSubmitDisabled) && "cursor-not-allowed opacity-60",
+            )}
+            onClick={onSubmit}
+            disabled={isSubmitting || isSubmitDisabled}
+          >
+            <span className="text-gs6 text-[17px] font-bold">
+              {isSubmitting ? "제출 중..." : "답안 제출하기"}
+            </span>
           </button>
         )}
       </div>

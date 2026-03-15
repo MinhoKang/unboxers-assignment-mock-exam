@@ -1,14 +1,14 @@
 import { OMR_STYLES } from "@/shared/constants/omrStyles";
 import { cn } from "@/shared/helpers/cn";
 import { useOMRSubjectiveInput } from "@/shared/hooks/OMR/useOMRSubjectiveInput";
-import type { TOmrVariant } from "@/shared/types/omrsTypes";
+import type { TOmrVariant, TSubjectiveAnswer } from "@/shared/types/omrsTypes";
 
 import { OMRInputsTitle } from "./OMRInputsTitle";
 import { OMRSubjectiveRow } from "./OMRSubjectiveRow";
 
 interface OMRSubjectiveInputProps {
   questionCount: number;
-  values?: Record<number, string>;
+  values?: TSubjectiveAnswer;
   onChange?: (questionNumber: number, value: string) => void;
   onFieldFocus?: (questionNumber: number) => void;
   focusedField?: number | null;

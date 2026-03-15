@@ -10,6 +10,15 @@ export const getColumnCount = (totalQuestions: number): number => {
 };
 
 /**
+ * 컬럼 수를 받아 객관식 영역의 전체 너비를 반환합니다.
+ * @param columnCount 컬럼 수
+ * @returns 객관식 영역 전체 너비
+ */
+export const getObjectiveSectionWidth = (columnCount: number): number => {
+  return OMR_STYLES.OBJECTIVE_COLUMN_WIDTH * columnCount;
+};
+
+/**
  * 컬럼 수를 받아 문항 번호를 반환합니다.
  * @param columnCount 컬럼 수
  * @param totalQuestions 총 문항 수
