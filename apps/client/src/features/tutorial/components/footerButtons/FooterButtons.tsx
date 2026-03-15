@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import { Button } from "@/shared/components/button/Button";
 import { ChevronLeft } from "@/shared/icons";
 
@@ -12,6 +14,12 @@ export const FooterButtons = ({
   handleClickPreviousButton,
   handleClickNextButton,
 }: FooterButtonsProps) => {
+  const navigate = useNavigate();
+
+  const handleClickSkipButton = () => {
+    navigate("/exam");
+  };
+
   return (
     <div className="mx-auto flex w-[1200px] items-center justify-between gap-x-4">
       <Button
@@ -21,8 +29,12 @@ export const FooterButtons = ({
         onClick={handleClickPreviousButton}
       />
       <div className="flex items-center gap-x-3">
-        {/* TODO: 튜토리얼 건너뛰기 버튼 추가 */}
-        <Button label="튜토리얼 건너뛰기" variant="white" className="flex-1" />
+        <Button
+          label="튜토리얼 건너뛰기"
+          variant="white"
+          className="flex-1"
+          onClick={handleClickSkipButton}
+        />
         <Button
           label="다음"
           variant="black"

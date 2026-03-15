@@ -29,7 +29,7 @@ const TutorialPage = () => {
     <main className="bg-gs4 flex min-h-screen w-full flex-col pb-20">
       <TutorialHeader />
       <section className="flex w-full flex-1 items-center justify-center">
-        {currentStep === 1 && <StartView onStepChange={() => handleStepChange("next")} />}
+        {currentStep === 1 && <StartView onStepChange={handleStepChange} />}
         {currentStep === 2 && <OMRObjectiveView onStepChange={handleStepChange} />}
         {currentStep === 3 && <OMRSubjectiveView onStepChange={handleStepChange} />}
         {currentStep === 4 && <ExamTimeGuideView onStepChange={handleStepChange} />}

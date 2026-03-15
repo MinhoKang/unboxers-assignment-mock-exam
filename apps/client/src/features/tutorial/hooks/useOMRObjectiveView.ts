@@ -67,10 +67,15 @@ export const useOMRObjectiveView = ({
   };
 
   const handleClickPreviousButton = () => {
-    if (currentStep === "multiple") {
-      handleChangeStep("remove");
-    } else if (currentStep === "remove") {
-      handleChangeStep("single");
+    switch (currentStep) {
+      case "multiple":
+        handleChangeStep("remove");
+        break;
+      case "remove":
+        handleChangeStep("single");
+        break;
+      default:
+        onStepChange("prev");
     }
   };
 
