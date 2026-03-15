@@ -4,7 +4,8 @@ node_modules
 # Local environment files
 .env
 .env.local
-apps/server/.env
+!apps/server/.env
+!apps/client/.env
 
 # Build output
 dist
