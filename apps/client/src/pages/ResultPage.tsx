@@ -7,7 +7,7 @@ import type { TExamResultScreenData } from "../features/exam/types/examResultTyp
 
 /**
  * 새로고침 시 바로 결과만 표시하는 독립 페이지
- * 임시로 localStorage에서 데이터를 읽어옵니다.
+ * 같은 탭 새로고침 복구를 위해 sessionStorage에서 데이터를 읽어옵니다.
  */
 const ResultPage = () => {
   const navigate = useNavigate();
@@ -15,12 +15,9 @@ const ResultPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // TODO: 실제로는 서버에서 결과를 다시 조회하거나 localStorage에서 읽어와야 함
-    // 현재는 임시로 더미 데이터를 사용
-    const loadResultData = async () => {
+    const loadResultData = () => {
       try {
-        // localStorage에서 결과 데이터 시도
-        const savedData = localStorage.getItem("examResultData");
+        const savedData = sessionStorage.getItem("examResultData");
         if (savedData) {
           const parsedData = JSON.parse(savedData);
           setExamResultData(parsedData);

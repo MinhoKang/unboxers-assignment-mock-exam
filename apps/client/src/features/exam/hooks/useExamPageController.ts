@@ -1,5 +1,6 @@
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 import type { TGradeValue } from "@/shared/types/omrsTypes";
 
@@ -23,6 +24,7 @@ const TOAST_IDS = {
  * @returns OMR 카드, 숫자 키패드, 컨트롤 바에 바로 전달할 props 묶음
  */
 export const useExamPageController = () => {
+  const navigate = useNavigate();
   const examSession = useExamSession();
   const previousStatusRef = useRef(examSession.status);
 
@@ -73,15 +75,15 @@ export const useExamPageController = () => {
         resultData: resultData,
       };
 
-      // 결과 데이터를 localStorage에 저장 (새로고침 대응)
+      // 결과 데이터를 sessionStorage에 저장해 같은 탭 새로고침만 복구합니다.
       try {
-        localStorage.setItem("examResultData", JSON.stringify(examResultScreenData));
+        sessionStorage.setItem("examResultData", JSON.stringify(examResultScreenData));
       } catch (error) {
         console.error("결과 데이터 저장 실패:", error);
       }
 
       setExamResultData(examResultScreenData);
-      setCompletionStatus("completed");
+      setCompletionStatus("scanning");
     };
 
     globalThis.window.addEventListener(
@@ -150,17 +152,10 @@ export const useExamPageController = () => {
   };
 
   /**
-   * @description "결과 보기" 버튼 클릭 시 스캔 애니메이션으로 전환합니다.
-   */
-  const handleViewResults = () => {
-    setCompletionStatus("scanning");
-  };
-
-  /**
-   * @description 스캔 애니메이션 완료 시 결과 화면으로 전환합니다.
+   * @description 스캔 애니메이션 완료 시 결과 페이지로 이동합니다.
    */
   const handleScanComplete = () => {
-    setCompletionStatus("results");
+    navigate("/exam/result", { replace: true });
   };
 
   /**
@@ -247,7 +242,6 @@ export const useExamPageController = () => {
     // 시험 완료 상태 관련
     completionStatus,
     examResultData,
-    onViewResults: handleViewResults,
     onScanComplete: handleScanComplete,
 
     // 기존 props들

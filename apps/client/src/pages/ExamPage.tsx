@@ -1,7 +1,5 @@
-import { ExamCompletionView } from "@/features/exam/components/completion/ExamCompletionView";
 import { ExamControlBar } from "@/features/exam/components/examControlBar/ExamControlBar";
 import { ExamHeader } from "@/features/exam/components/header/ExamHeader";
-import { ResultView } from "@/features/exam/components/result/ResultView";
 import { ScanAnimation } from "@/features/exam/components/scan/ScanAnimation";
 import { useExamPageController } from "@/features/exam/hooks/useExamPageController";
 import { NumericKeypad } from "@/shared/components/OMR/OMRBases/NumericKeypad";
@@ -17,14 +15,8 @@ const ExamPage = () => {
     controlBarProps,
     completionStatus,
     examResultData,
-    onViewResults,
     onScanComplete,
   } = useExamPageController();
-
-  // 제출 완료 후 상태에 따른 조건부 렌더링
-  if (completionStatus === "completed" && examResultData) {
-    return <ExamCompletionView examResultData={examResultData} onViewResults={onViewResults} />;
-  }
 
   if (completionStatus === "scanning" && examResultData) {
     return (
@@ -34,10 +26,6 @@ const ExamPage = () => {
         scanDurationMs={SCAN_DURATION_MS}
       />
     );
-  }
-
-  if (completionStatus === "results" && examResultData) {
-    return <ResultView examResultData={examResultData} />;
   }
 
   // 기본 시험 화면

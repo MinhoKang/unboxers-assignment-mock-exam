@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { useNavigate } from "react-router-dom";
 
 import { OMRCard } from "@/shared/components/OMR/OMRCard";
 
@@ -13,6 +14,7 @@ interface ResultViewProps {
  * 제출된 OMR 카드와 점수 요약, 문항별 결과를 보여줍니다.
  */
 export const ResultView = ({ examResultData }: ResultViewProps) => {
+  const navigate = useNavigate();
   const { submittedExamData, resultData } = examResultData;
 
   const totalQuestions =
@@ -158,9 +160,9 @@ export const ResultView = ({ examResultData }: ResultViewProps) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => {
-              // localStorage 정리 후 시험 페이지로 이동
-              localStorage.removeItem("examResultData");
-              window.location.href = "/exam";
+              // sessionStorage 정리 후 시험 페이지로 이동
+              sessionStorage.removeItem("examResultData");
+              navigate("/exam", { replace: true });
             }}
           >
             다시 시험 보기
@@ -171,9 +173,9 @@ export const ResultView = ({ examResultData }: ResultViewProps) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => {
-              // localStorage 정리 후 홈으로 이동
-              localStorage.removeItem("examResultData");
-              window.location.href = "/";
+              // sessionStorage 정리 후 홈으로 이동
+              sessionStorage.removeItem("examResultData");
+              navigate("/", { replace: true });
             }}
           >
             홈으로 이동

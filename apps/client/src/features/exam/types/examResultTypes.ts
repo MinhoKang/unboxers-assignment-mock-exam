@@ -66,8 +66,5 @@ export type TExamResultScreenData = {
  * 시험 완료 후 화면 상태
  */
 export type TExamCompletionStatus =
-  | "submitting" // 제출 중
-  | "completed" // 제출 완료 (애니메이션 표시)
   | "scanning" // 스캔 애니메이션 중
-  | "results" // 결과 표시 중
   | null; // 시험 진행 중
