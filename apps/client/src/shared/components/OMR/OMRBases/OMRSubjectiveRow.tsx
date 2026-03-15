@@ -26,7 +26,7 @@ export const OMRSubjectiveRow = ({
   inputRef,
 }: OMRSubjectiveRowProps) => {
   return (
-    <div className={cn("flex w-full items-center", variant === "examCard" && "h-full min-h-0")}>
+    <div className={cn("flex w-full items-stretch", variant === "examCard" && "h-full min-h-0")}>
       {variant === "examCard" ? (
         <div
           className="bg-inbrain-lightblue/15 border-inbrain-lightblue flex h-full shrink-0 items-center justify-center border-r-[1.5px]"
@@ -44,17 +44,21 @@ export const OMRSubjectiveRow = ({
           </span>
         </div>
       )}
-      <div className="min-w-0 flex-1">
+      <div
+        className={cn(
+          "min-w-0 flex-1 self-stretch",
+          isFocused
+            ? "bg-gs6 shadow-[inset_0_0_0_2.5px_var(--color-inbrain-lightblue)]"
+            : "bg-transparent",
+        )}
+      >
         <input
           ref={inputRef}
           type="text"
           value={value}
           placeholder={placeholder}
           className={cn(
-            "placeholder:text-grayscale-400-100 block max-h-[47.67px] w-full py-[13.83px] text-center text-[17px] font-semibold outline-none placeholder:text-[17px]",
-            isFocused
-              ? "bg-gs6 shadow-[inset_0_0_0_2.5px_var(--color-inbrain-lightblue)]"
-              : "bg-transparent",
+            "placeholder:text-grayscale-400-100 block h-full w-full bg-transparent py-[13.83px] text-center text-[17px] font-semibold outline-none placeholder:text-[17px]",
           )}
           onFocus={onFocus}
           onChange={(e) => onChange(e.target.value)}
