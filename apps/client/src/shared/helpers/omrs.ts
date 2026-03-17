@@ -31,6 +31,34 @@ export const getChoicesColumns = (columnCount: number, totalQuestions: number) =
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
   });
 
+const OBJECTIVE_COLUMN_HIGHLIGHT_START_ROW_INDEX = OMR_STYLES.BODY_ROW_COUNT / 2;
+
+/**
+ * 객관식 컬럼 인덱스에 따라 상단/하단 5행 하이라이트 여부를 판정합니다.
+ * 짝수 인덱스 컬럼(1, 3, 5번째 시각 컬럼)은 하단 5행, 홀수 인덱스 컬럼은 상단 5행을 칠합니다.
+ * @param columnIndex 0-based 컬럼 인덱스
+ * @param rowIndex 컬럼 내부 0-based 행 인덱스
+ * @returns 하이라이트 여부
+ */
+export const isObjectiveColumnHighlightedRow = (columnIndex: number, rowIndex: number): boolean => {
+  return columnIndex % 2 === 0
+    ? rowIndex >= OBJECTIVE_COLUMN_HIGHLIGHT_START_ROW_INDEX
+    : rowIndex < OBJECTIVE_COLUMN_HIGHLIGHT_START_ROW_INDEX;
+};
+
+/**
+ * 마지막 컬럼이 10문항보다 짧을 때, 남는 filler 영역은 항상 기본 배경으로 유지합니다.
+ * @param questionCount 해당 컬럼의 실제 문항 수
+ * @returns filler 세그먼트 배열
+ */
+export const getObjectiveColumnFillerSegments = (questionCount: number) => {
+  const fillerRowCount = OMR_STYLES.BODY_ROW_COUNT - questionCount;
+
+  if (fillerRowCount <= 0) return [];
+
+  return [{ rowCount: fillerRowCount, isHighlighted: false }];
+};
+
 /**
  * 선택지 수를 받아 리더 마크 키를 반환합니다.
  * @param choiceCount 선택지 수

@@ -6,8 +6,10 @@ import {
   getColumnCount,
   getExamCardBubbleTrackStyle,
   getObjectiveBubbleTrackStyle,
+  getObjectiveColumnFillerSegments,
   getObjectiveSectionWidth,
   getReaderBarKeys,
+  isObjectiveColumnHighlightedRow,
   isValidChar,
 } from "./omrs";
 
@@ -29,6 +31,23 @@ describe("OMR helpers", () => {
 
   it("builds reader bar keys from the choice count", () => {
     expect(getReaderBarKeys(5)).toEqual([0, 1, 2, 3, 4]);
+  });
+
+  it("alternates objective column highlights by column index", () => {
+    expect([0, 1, 2, 3, 4].map((rowIndex) => isObjectiveColumnHighlightedRow(0, rowIndex))).toEqual(
+      [false, false, false, false, false],
+    );
+    expect([5, 6, 7, 8, 9].map((rowIndex) => isObjectiveColumnHighlightedRow(0, rowIndex))).toEqual(
+      [true, true, true, true, true],
+    );
+    expect([0, 1, 2, 3, 4].map((rowIndex) => isObjectiveColumnHighlightedRow(1, rowIndex))).toEqual(
+      [true, true, true, true, true],
+    );
+    expect([5, 6, 7, 8, 9].map((rowIndex) => isObjectiveColumnHighlightedRow(1, rowIndex))).toEqual(
+      [false, false, false, false, false],
+    );
+    expect(getObjectiveColumnFillerSegments(3)).toEqual([{ rowCount: 7, isHighlighted: false }]);
+    expect(getObjectiveColumnFillerSegments(10)).toEqual([]);
   });
 
   it("accepts only supported subjective answer characters", () => {

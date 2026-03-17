@@ -1,6 +1,12 @@
 import { OMR_STYLES } from "@/shared/constants/omrStyles";
 import { cn } from "@/shared/helpers/cn";
-import { getChoicesColumns, getColumnCount, getObjectiveSectionWidth } from "@/shared/helpers/omrs";
+import {
+  getChoicesColumns,
+  getColumnCount,
+  getObjectiveColumnFillerSegments,
+  getObjectiveSectionWidth,
+  isObjectiveColumnHighlightedRow,
+} from "@/shared/helpers/omrs";
 import type { TObjectiveAnswer, TOmrVariant } from "@/shared/types/omrsTypes";
 
 import { OMRInputsTitle } from "./OMRInputsTitle";
@@ -56,46 +62,73 @@ export const OMRObjectiveInputs = ({
         <OMRInputsTitle title="객관식답안" />
 
         <div className="border-inbrain-lightblue bg-omr-bg flex border-r-[1.5px] border-b-[1.5px]">
-          {columns.map((questions, columnIndex) => (
-            <div
-              key={questions[0]}
-              className={cn(
-                "flex flex-1 flex-col",
-                columnIndex > 0 && "border-inbrain-lightblue border-l-[1.5px]",
-              )}
-            >
-              {questions.map((questionNumber, rowIndex) => (
-                <div key={questionNumber}>
-                  {rowIndex === 5 && (
-                    <div className="flex">
-                      <div
-                        className="bg-inbrain-lightblue/15 border-inbrain-lightblue shrink-0 border-r-[1.5px]"
-                        style={{ width: OMR_STYLES.LABEL_WIDTH }}
+          {columns.map((questions, columnIndex) => {
+            const fillerSegments = getObjectiveColumnFillerSegments(questions.length);
+
+            return (
+              <div
+                key={questions[0]}
+                className={cn(
+                  "flex flex-1 flex-col",
+                  columnIndex > 0 && "border-inbrain-lightblue border-l-[1.5px]",
+                )}
+              >
+                {questions.map((questionNumber, rowIndex) => {
+                  const isHighlightedRow = isObjectiveColumnHighlightedRow(columnIndex, rowIndex);
+
+                  return (
+                    <div key={questionNumber}>
+                      {rowIndex === 5 && (
+                        <div className="bg-omr-objective-column-highlight flex">
+                          <div
+                            className="bg-omr-objective-column-highlight border-inbrain-lightblue shrink-0 border-r-[1.5px]"
+                            style={{ width: OMR_STYLES.LABEL_WIDTH }}
+                          />
+                          <div className="border-inbrain-lightblue flex-1 border-t border-dashed" />
+                        </div>
+                      )}
+                      <QuestionRow
+                        questionNumber={questionNumber}
+                        choiceCount={choiceCount}
+                        selectedChoices={answers[questionNumber] ?? []}
+                        isReadOnly={isReadOnly}
+                        onSelect={handleSelect}
+                        isHighlighted={isHighlightedRow}
+                        variant="examCard"
                       />
-                      <div className="border-inbrain-lightblue flex-1 border-t border-dashed" />
                     </div>
-                  )}
-                  <QuestionRow
-                    questionNumber={questionNumber}
-                    choiceCount={choiceCount}
-                    selectedChoices={answers[questionNumber] ?? []}
-                    isReadOnly={isReadOnly}
-                    onSelect={handleSelect}
-                    variant="examCard"
-                  />
-                </div>
-              ))}
-              {questions.length < OMR_STYLES.BODY_ROW_COUNT && (
-                <div className="flex flex-1">
+                  );
+                })}
+                {fillerSegments.map((segment, segmentIndex) => (
                   <div
-                    className="bg-inbrain-lightblue/15 border-inbrain-lightblue shrink-0 border-t-[1.5px] border-r-[1.5px]"
-                    style={{ width: OMR_STYLES.LABEL_WIDTH }}
-                  />
-                  <div className="border-inbrain-lightblue flex-1 border-t-[1.5px]" />
-                </div>
-              )}
-            </div>
-          ))}
+                    key={`${questions[0]}-filler-${segmentIndex}`}
+                    className={cn(
+                      "flex",
+                      segment.isHighlighted ? "bg-omr-objective-column-highlight" : "bg-omr-bg",
+                    )}
+                    style={{ height: segment.rowCount * OMR_STYLES.ROW_HEIGHT }}
+                  >
+                    <div
+                      className={cn(
+                        "border-inbrain-lightblue shrink-0 border-r-[1.5px]",
+                        segmentIndex === 0 && "border-t-[1.5px]",
+                        segment.isHighlighted
+                          ? "bg-omr-objective-column-highlight"
+                          : "bg-inbrain-lightblue/15",
+                      )}
+                      style={{ width: OMR_STYLES.LABEL_WIDTH }}
+                    />
+                    <div
+                      className={cn(
+                        "border-inbrain-lightblue flex-1",
+                        segmentIndex === 0 && "border-t-[1.5px]",
+                      )}
+                    />
+                  </div>
+                ))}
+              </div>
+            );
+          })}
         </div>
 
         <OMRObjectiveReaderMarks columns={columns} choiceCount={choiceCount} />
@@ -107,40 +140,67 @@ export const OMRObjectiveInputs = ({
     <div className={cn("flex flex-col", className)}>
       {/* 문항 영역 */}
       <div className="bg-omr-bg border-y-inbrain-lightblue border-r-inbrain-lightblue flex border-y-[1.5px] border-r-[1.5px]">
-        {columns.map((questions) => (
-          <div key={questions[0]} className="bg-omr-bg flex flex-1 flex-col">
-            {questions.map((questionNumber, rowIndex) => (
-              <div key={questionNumber}>
-                {rowIndex === 5 && (
-                  <div className="flex">
-                    <div
-                      className="bg-inbrain-lightblue/20 border-x-inbrain-lightblue shrink-0 border-x-[1.5px]"
-                      style={{ width: OMR_STYLES.LABEL_WIDTH }}
+        {columns.map((questions, columnIndex) => {
+          const fillerSegments = getObjectiveColumnFillerSegments(questions.length);
+
+          return (
+            <div key={questions[0]} className="bg-omr-bg flex flex-1 flex-col">
+              {questions.map((questionNumber, rowIndex) => {
+                const isHighlightedRow = isObjectiveColumnHighlightedRow(columnIndex, rowIndex);
+
+                return (
+                  <div key={questionNumber}>
+                    {rowIndex === 5 && (
+                      <div className="bg-omr-objective-column-highlight flex">
+                        <div
+                          className="bg-omr-objective-column-highlight border-x-inbrain-lightblue shrink-0 border-x-[1.5px]"
+                          style={{ width: OMR_STYLES.LABEL_WIDTH }}
+                        />
+                        <div className="border-inbrain-lightblue flex-1 border-t border-dashed" />
+                      </div>
+                    )}
+                    <QuestionRow
+                      questionNumber={questionNumber}
+                      choiceCount={choiceCount}
+                      selectedChoices={answers[questionNumber] ?? []}
+                      isReadOnly={isReadOnly}
+                      onSelect={handleSelect}
+                      isHighlighted={isHighlightedRow}
+                      variant="default"
                     />
-                    <div className="border-inbrain-lightblue flex-1 border-t border-dashed" />
                   </div>
-                )}
-                <QuestionRow
-                  questionNumber={questionNumber}
-                  choiceCount={choiceCount}
-                  selectedChoices={answers[questionNumber] ?? []}
-                  isReadOnly={isReadOnly}
-                  onSelect={handleSelect}
-                  variant="default"
-                />
-              </div>
-            ))}
-            {questions.length < OMR_STYLES.BODY_ROW_COUNT && (
-              <div className="flex flex-1">
+                );
+              })}
+              {fillerSegments.map((segment, segmentIndex) => (
                 <div
-                  className="bg-inbrain-lightblue/20 border-x-inbrain-lightblue shrink-0 border-x-[1.5px] border-t-[1.5px]"
-                  style={{ width: OMR_STYLES.LABEL_WIDTH }}
-                />
-                <div className="border-inbrain-lightblue flex-1 border-t-[1.5px]" />
-              </div>
-            )}
-          </div>
-        ))}
+                  key={`${questions[0]}-filler-${segmentIndex}`}
+                  className={cn(
+                    "flex",
+                    segment.isHighlighted ? "bg-omr-objective-column-highlight" : "bg-omr-bg",
+                  )}
+                  style={{ height: segment.rowCount * OMR_STYLES.ROW_HEIGHT }}
+                >
+                  <div
+                    className={cn(
+                      "border-x-inbrain-lightblue shrink-0 border-x-[1.5px]",
+                      segmentIndex === 0 && "border-t-[1.5px]",
+                      segment.isHighlighted
+                        ? "bg-omr-objective-column-highlight"
+                        : "bg-inbrain-lightblue/20",
+                    )}
+                    style={{ width: OMR_STYLES.LABEL_WIDTH }}
+                  />
+                  <div
+                    className={cn(
+                      "border-inbrain-lightblue flex-1",
+                      segmentIndex === 0 && "border-t-[1.5px]",
+                    )}
+                  />
+                </div>
+              ))}
+            </div>
+          );
+        })}
       </div>
 
       {/* 리더 마크 영역 */}
